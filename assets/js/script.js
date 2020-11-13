@@ -4,8 +4,7 @@ var resultsContainerEl = document.querySelector("#search-results-container");
 
 var getOmdb = function (movieTitle) {
   
-  var apiUrl =
-  `http://www.omdbapi.com/?s=${movieTitle}&apikey=65b2c758`;
+  var apiUrl = `http://www.omdbapi.com/?s=${movieTitle}&apikey=65b2c758`;
   // make a request to the url
   fetch(apiUrl)
     .then(function (response) {
@@ -13,6 +12,7 @@ var getOmdb = function (movieTitle) {
       if (response.ok) {
         response.json().then(function (data) {
           console.log(data);
+          displayMovies(data)
         });
       } else {
         // error message if an invalid entery/movie is submitted
@@ -25,9 +25,8 @@ var getOmdb = function (movieTitle) {
     });
 };
 
-var getMovie = function () {
-  var apiUrl =
-    "https://api.themoviedb.org/3/find/tt1856101?api_key=b2b7dc79b0696d3f9c1db98685b5b36f&language=en-US&external_source=imdb_id"
+var getMoviePoster = function () {
+  var apiUrl = `https://api.themoviedb.org/3/find/tt1856101?api_key=b2b7dc79b0696d3f9c1db98685b5b36f&language=en-US&external_source=imdb_id`
   // // make a request to the url
   fetch(apiUrl)
     .then(function (response) {
@@ -48,11 +47,10 @@ var getMovie = function () {
     });
 };
 
-/* var displayMovies = function (movie) {
-  console.log(movie);
+var displayMovies = function (movie) {
   resultsContainerEl.innerHTML = "";
 
-  for (var i = 0; i < movie.results.length; i++) {
+  for (var i = 0; i < movie.Search.length; i++) {
     var movieContainerEl = document.createElement("div");
     movieContainerEl.classList = "columns m-2";
 
@@ -68,26 +66,25 @@ var getMovie = function () {
 
     var poster = document.createElement("img");
     poster.setAttribute(
-      "src",
-      "https://image.tmdb.org/t/p/w500" + movie.results[i].poster_path
+      "src", movie.Search[i].Poster
     );
     poster.classList = "poster column is-two-fifths";
     movieContainerEl.prepend(poster);
 
     var title = document.createElement("h2");
-    title.textContent = movie.results[i].title;
+    title.textContent = movie.Search[i].Title;
     movieHeaderContainerEl.appendChild(title);
 
     var release = document.createElement("p");
-    release.textContent = movie.results[i].release_date;
+    release.textContent = movie.Search[i].Year;
     movieHeaderContainerEl.appendChild(release);
 
-    var overview = document.createElement("p");
+    /* var overview = document.createElement("p");
     overview.textContent = movie.results[i].overview;
-    movieInfoContainerEl.appendChild(overview);
+    movieInfoContainerEl.appendChild(overview); */
 
   }
-}; */
+};
 
 var formSubmitHandler = function (event) {
   event.preventDefault();
