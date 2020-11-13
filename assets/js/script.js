@@ -4,7 +4,7 @@ var resultsContainerEl = document.querySelector("#search-results-container");
 
 var getOmdb = function (movieTitle) {
   
-  var apiUrl = `http://www.omdbapi.com/?s=${movieTitle}&apikey=65b2c758`;
+  var apiUrl = `http://www.omdbapi.com/?s=${movieTitle}&type=movie&apikey=65b2c758`;
   // make a request to the url
   fetch(apiUrl)
     .then(function (response) {
