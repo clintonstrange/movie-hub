@@ -39,6 +39,7 @@ var displayMovies = function (movie) {
     var overview = document.createElement("p");
     overview.textContent = movie.results[i].overview;
     movieInfoContainerEl.appendChild(overview);
+
   }
 };
 
