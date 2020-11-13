@@ -1,0 +1,19 @@
+/* I just used this to help me build the page */
+* {
+  border: 1px solid red;
+}
+
+/* We can update these colors, but just setting up the primary and secondary colors for us */
+:root {
+  --primary-color: rgb(33, 82, 219);
+  --secondary-color: rgb(118, 197, 230);
+  --tertiary-color: rgb(243, 243, 115);
+}
+
+.poster {
+  width: 20%;
+}
+
+header {
+  background: var(--primary-color);
+}

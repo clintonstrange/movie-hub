@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>The Movie Project</title>
 </head>
 <body>
-    <header>The Movie Project</header> 
-    <main>
-        <div id="search-container">
-            <div id="search-bar-container">
-                <h3 class="card-header">Search for a Movie</h3>
-                <form id="movie-form">
-                    <input name="movie" id="movie-search-input" type="text" autofocus="true" />
-                    <button type="submit"><span>Submit</span></button>
+    <header class="mb-2">
+        <h1 class="title is-1 has-text-white">The Movie Project</h1>
+    </header> 
+    <main class="columns">
+        <div id="search-container" class="column is-one-third m-2">
+            <div id="form-container" class="column is-full">
+                <form id="movie-form" class="columns">
+                    <input name="movie" id="movie-search-input" type="text" autofocus="true" class="input is-info column is-three-quarters m-1 p-1"/>
+                    <button type="submit" class="button is-info m-1"><span>Submit</span></button>
                 </form>
-                <div id="search-container"></div>
             </div>
-            
+            <button class="button is-full-width is-success column is-full my-2 p-2">Find Random Movie</button>
+            <div id="search-results-container" class="column is-full">
+
+            </div>
         </div>
-      
-        <div>
-            <div id="current-container"></div>
-            <div id="movie-container"></div>
+        <div class="column">
+            <div id="reddit-container">Reddit Articles</div>
+            <div id="watch-list-container">Watch List</div>
         </div>
     </main>
     <script src="assets/js/script.js"></script>
