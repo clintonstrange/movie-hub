@@ -14,8 +14,12 @@ body {
   font-family: "Barlow Semi Condensed", sans-serif;
 }
 
-header {
+#navbar {
   background: var(--primary-color);
+}
+
+a.navbar-item:hover {
+  background-color: var(--secondary-color);
 }
 
 #search-btn {
