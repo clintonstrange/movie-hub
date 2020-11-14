@@ -56,5 +56,9 @@ header {
 }
 .movie-plot {
   border-top: 1px black solid;
+  border-bottom: 1px black solid;
+  width: 90%;
+}
+.score {
   width: 90%;
 }
