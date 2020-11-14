@@ -146,41 +146,42 @@ var displayWatchlist = function() {
   console.log(watchlist);
   //clear watch list container
   var watchlistContainerEl = $("#watch-list-container");
-  
+  watchlistContainerEl.empty();
 
-  i = 0;
-  var movieContainerEl = $("<div>").addClass("card p-3 is-flex");
-  watchlistContainerEl.append(movieContainerEl);
+  for (i = 0; i < watchlist.length; i++) {
+    var movieContainerEl = $("<div>").addClass("card p-3 is-flex");
+    watchlistContainerEl.append(movieContainerEl);
 
-  var posterEl = $("<img>").attr("src", watchlist[i].Poster).addClass("watch-poster mr-3");
-  var textContainer = $("<div>");
-  movieContainerEl.append(posterEl, textContainer);
+    var posterEl = $("<img>").attr("src", watchlist[i].Poster).addClass("watch-poster mr-3");
+    var textContainer = $("<div>");
+    movieContainerEl.append(posterEl, textContainer);
 
-  var titleEl = $("<h2>").addClass("is-size-1 has-text-weight-semibold")
-    .text(`${watchlist[i].Title} (${watchlist[i].Year})`)
-  var directorEl = $("<p>").addClass("is-size-3")
-    .text(`Directed by ${watchlist[i].Director}`);
-  var genreEl = $("<p>").addClass("is-size-3")
-    .text(`Genre: ${watchlist[i].Genre}`);
+    var titleEl = $("<h2>").addClass("is-size-1 has-text-weight-semibold")
+      .text(`${watchlist[i].Title} (${watchlist[i].Year})`)
+    var directorEl = $("<p>").addClass("is-size-3")
+      .text(`Directed by ${watchlist[i].Director}`);
+    var genreEl = $("<p>").addClass("is-size-3")
+      .text(`Genre: ${watchlist[i].Genre}`);
 
-  var subtextContainer = $("<div>").addClass("is-flex");
-  var runtimeEl = $("<p>").addClass("is-size-4 mr-6 mb-1")
-    .text(`Runtime: ${watchlist[i].Runtime}`);
-  var ratingEl = $("<p>").addClass("is-size-4")
-    .text(`Rated ${watchlist[i].Rated}`);
-  subtextContainer.append(runtimeEl, ratingEl);
+    var subtextContainer = $("<div>").addClass("is-flex");
+    var runtimeEl = $("<p>").addClass("is-size-4 mr-6 mb-1")
+      .text(`Runtime: ${watchlist[i].Runtime}`);
+    var ratingEl = $("<p>").addClass("is-size-4")
+      .text(`Rated: ${watchlist[i].Rated}`);
+    subtextContainer.append(runtimeEl, ratingEl);
 
-  var plotEl = $("<p>").addClass("is-size-4 movie-plot py-2")
-    .text(watchlist[i].Plot);
+    var plotEl = $("<p>").addClass("is-size-4 movie-plot py-2")
+      .text(watchlist[i].Plot);
 
-  var scoreContainer = $("<div>").addClass("is-flex is-justify-content-space-around score mt-3");
-  var imdbScore = $("<p>").addClass("is-size-4")
-    .text(`Imdb Score: ${watchlist[i].imdbRating}`);
-  var rtScore = $("<p>").addClass("is-size-4")
-    .text(`Tomatometer: ${watchlist[i].Ratings[1].Value}`);
-  scoreContainer.append(imdbScore, rtScore);
-  
-  textContainer.append(titleEl, directorEl, genreEl, subtextContainer, plotEl, scoreContainer)
+    var scoreContainer = $("<div>").addClass("is-flex is-justify-content-space-around score mt-3");
+    var imdbScore = $("<p>").addClass("is-size-4")
+      .text(`Imdb Score: ${watchlist[i].imdbRating}`);
+    var rtScore = $("<p>").addClass("is-size-4")
+      .text(`Tomatometer: ${watchlist[i].Ratings[1].Value}`);
+    scoreContainer.append(imdbScore, rtScore);
+    
+    textContainer.append(titleEl, directorEl, genreEl, subtextContainer, plotEl, scoreContainer)
+  }
 };
 
 var formSubmitHandler = function(event) {
