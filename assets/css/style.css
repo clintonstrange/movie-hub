@@ -7,7 +7,11 @@
 :root {
   --primary-color: rgb(33, 82, 219);
   --secondary-color: rgb(49, 240, 160);
-  --tertiary-color: rgb(170, 250, 253);
+  --tertiary-color: rgb(239, 255, 181);
+}
+
+body {
+  font-family: "Barlow Semi Condensed", sans-serif;
 }
 
 header {

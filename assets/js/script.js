@@ -116,6 +116,8 @@ var getSearchImdbID = function (movie) {
 var displayMovieSearch = function (movie) {
   console.log(movie);
 
+  
+
   var movieContainerEl = document.createElement("div");
   movieContainerEl.setAttribute("id", "movie-container");
   movieContainerEl.classList = "columns";
@@ -150,29 +152,29 @@ var displayMovieSearch = function (movie) {
   }
 
   var title = document.createElement("h2");
-  title.classList = "is-size-7 has-text-weight-bold";
+  title.classList = "is-size-6 has-text-weight-bold";
   title.textContent = movie.Title + " " + "(" + movie.Year + ")";
 
   var rating = document.createElement("p");
-  rating.classList = "is-size-7";
+  rating.classList = "is-size-7 has-text-weight-semibold";
   rating.textContent = "Rated: " + movie.Rated;
 
   var director = document.createElement("p");
-  director.classList = "is-size-7";
+  director.classList = "is-size-7 has-text-weight-semibold";
   director.textContent = "Directed By: " + movie.Director;
 
   var genre = document.createElement("p");
-  genre.classList = "is-size-7";
+  genre.classList = "is-size-7 has-text-weight-semibold";
   genre.textContent = "Genre: " + movie.Genre;
 
   var runtime = document.createElement("p");
-  runtime.classList = "is-size-7";
+  runtime.classList = "is-size-7 has-text-weight-semibold";
   runtime.textContent = "Runtime: " + movie.Runtime;
 
   movieHeaderContainerEl.append(title, rating, director, genre, runtime);
 
   var plot = document.createElement("p");
-  plot.classList = "is-size-7";
+  plot.classList = "is-size-7 has-text-weight-semibold";
   plot.textContent = movie.Plot;
 
   movieInfoContainerEl.append(plot);
@@ -182,7 +184,7 @@ var displayMovieSearch = function (movie) {
   movieInfoContainerEl.append(scoreContainerEl);
 
   var scores = document.createElement("p");
-  scores.classList = "is-size-7";
+  scores.classList = "is-size-6 has-text-weight-semibold";
   scores.textContent = "IMDB Score: " + movie.imdbRating;
 
   scoreContainerEl.append(scores);
