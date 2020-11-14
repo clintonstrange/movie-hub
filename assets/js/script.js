@@ -2,16 +2,20 @@ var movieFormEl = document.querySelector("#movie-form");
 var movieInputEl = document.querySelector("#movie-search-input");
 var resultsContainerEl = document.querySelector("#search-results-container");
 
-var getOmdb = function (movieTitle) {
-  var apiUrl = `http://www.omdbapi.com/?s=${movieTitle}&apikey=65b2c758`;
-  // make a request to the url
+//array to hold watchlist movies
+var watchlist = [];
+
+var getImdbId = function (moviedbId) {
+  var apiUrl = `https://api.themoviedb.org/3/movie/${moviedbId}/external_ids?api_key=b2b7dc79b0696d3f9c1db98685b5b36f`;
+  // // make a request to the url
   fetch(apiUrl)
     .then(function (response) {
       // request was successful
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
-          displayMovies(data);
+          //send imdb id to getOmdb function to retrieve that specific movies data
+          var imdbId = data.imdb_id;
+          getOmdb(imdbId);
         });
       } else {
         // error message if an invalid entery/movie is submitted
@@ -24,16 +28,16 @@ var getOmdb = function (movieTitle) {
     });
 };
 
-var getMoviePoster = function () {
-  var apiUrl = `https://api.themoviedb.org/3/find/tt1856101?api_key=b2b7dc79b0696d3f9c1db98685b5b36f&language=en-US&external_source=imdb_id`;
+var getMovie = function (movie) {
+  var apiUrl = `https://api.themoviedb.org/3/search/movie?query=${movie}&api_key=b2b7dc79b0696d3f9c1db98685b5b36f`;
   // // make a request to the url
   fetch(apiUrl)
     .then(function (response) {
       // request was successful
-      if (response.true) {
+      if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
-          //displayMovies(data);
+          //console.log(data);
+          displayMovieSearch(data);
         });
       } else {
         // error message if an invalid entery/movie is submitted
@@ -46,7 +50,7 @@ var getMoviePoster = function () {
     });
 };
 
-var displayMovies = function (movie) {
+var displayMovieSearch = function (movie) {
   resultsContainerEl.innerHTML = "";
 
   for (var i = 0; i < movie.results.length; i++) {
@@ -111,32 +115,93 @@ var displayMovies = function (movie) {
   }
 };
 
-var getMovie = function (movie) {
-  var apiUrl =
-    "https://api.themoviedb.org/3/search/movie?query=" +
-    JSON.stringify(movie.replace(/\s/g, "-")) +
-    "&api_key=b2b7dc79b0696d3f9c1db98685b5b36f";
-  // "http://www.omdbapi.com/?s=" +
-  // JSON.stringify(movie.replace(/\s/g, "-")) +
-  // "&apikey=65b2c758";
-  //console.log(apiUrl);
-  // // make a request to the url
-  fetch(apiUrl)
-    .then(function (response) {
-      // request was successful
-      if (response.ok) {
-        response.json().then(function (data) {
-          //console.log(data);
-          displayMovies(data);
-        });
-      } else {
-        // error message if an invalid entery/movie is submitted
-        alert("Error: " + response.statusText);
-      }
-    })
-    .catch(function (error) {
-      alert("Unable to connect to The Movie Database");
-    });
+// var getMovie = function (movie) {
+//   var apiUrl =
+//     "https://api.themoviedb.org/3/search/movie?query=" +
+//     JSON.stringify(movie.replace(/\s/g, "-")) +
+//     "&api_key=b2b7dc79b0696d3f9c1db98685b5b36f";
+//   // "http://www.omdbapi.com/?s=" +
+//   // JSON.stringify(movie.replace(/\s/g, "-")) +
+//   // "&apikey=65b2c758";
+//   //console.log(apiUrl);
+//   // // make a request to the url
+//   fetch(apiUrl)
+//     .then(function (response) {
+//       // request was successful
+//       if (response.ok) {
+//         response.json().then(function (data) {
+//           //console.log(data);
+//           displayMovies(data);
+//         });
+//       } else {
+//         // error message if an invalid entery/movie is submitted
+//         alert("Error: " + response.statusText);
+//       }
+//     })
+//     .catch(function (error) {
+//       alert("Unable to connect to The Movie Database");
+//     });
+// };
+
+var displayWatchlist = function () {
+  console.log(watchlist);
+  //clear watch list container
+  var watchlistContainerEl = $("#watch-list-container");
+  watchlistContainerEl.empty();
+
+  for (i = 0; i < watchlist.length; i++) {
+    var movieContainerEl = $("<div>").addClass("card p-3 is-flex");
+    watchlistContainerEl.append(movieContainerEl);
+
+    var posterEl = $("<img>")
+      .attr("src", watchlist[i].Poster)
+      .addClass("watch-poster mr-3");
+    var textContainer = $("<div>");
+    movieContainerEl.append(posterEl, textContainer);
+
+    var titleEl = $("<h2>")
+      .addClass("is-size-1 has-text-weight-semibold")
+      .text(`${watchlist[i].Title} (${watchlist[i].Year})`);
+    var directorEl = $("<p>")
+      .addClass("is-size-3")
+      .text(`Directed by ${watchlist[i].Director}`);
+    var genreEl = $("<p>")
+      .addClass("is-size-3")
+      .text(`Genre: ${watchlist[i].Genre}`);
+
+    var subtextContainer = $("<div>").addClass("is-flex");
+    var runtimeEl = $("<p>")
+      .addClass("is-size-4 mr-6 mb-1")
+      .text(`Runtime: ${watchlist[i].Runtime}`);
+    var ratingEl = $("<p>")
+      .addClass("is-size-4")
+      .text(`Rated: ${watchlist[i].Rated}`);
+    subtextContainer.append(runtimeEl, ratingEl);
+
+    var plotEl = $("<p>")
+      .addClass("is-size-4 movie-plot py-2")
+      .text(watchlist[i].Plot);
+
+    var scoreContainer = $("<div>").addClass(
+      "is-flex is-justify-content-space-around score mt-3"
+    );
+    var imdbScore = $("<p>")
+      .addClass("is-size-4")
+      .text(`Imdb Score: ${watchlist[i].imdbRating}`);
+    var rtScore = $("<p>")
+      .addClass("is-size-4")
+      .text(`Tomatometer: ${watchlist[i].Ratings[1].Value}`);
+    scoreContainer.append(imdbScore, rtScore);
+
+    textContainer.append(
+      titleEl,
+      directorEl,
+      genreEl,
+      subtextContainer,
+      plotEl,
+      scoreContainer
+    );
+  }
 };
 
 var formSubmitHandler = function (event) {
@@ -151,5 +216,16 @@ var formSubmitHandler = function (event) {
     alert("Please enter a movie title.");
   }
 };
+
+//click on add to watchlist
+$("#search-results-container").on(
+  "click",
+  "#add-to-watch-list-btn",
+  function () {
+    //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
+    var movieId = $(this).parent().attr("id");
+    getImdbId(movieId);
+  }
+);
 
 movieFormEl.addEventListener("submit", formSubmitHandler);
