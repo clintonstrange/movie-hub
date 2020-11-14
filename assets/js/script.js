@@ -4,7 +4,7 @@ var resultsContainerEl = document.querySelector("#search-results-container");
 /* var watchlistContainerEl = document.querySelector("#watch-list-container") */
 
 //array to hold watchlist movies
-var watchlist = [];
+var watchlist = JSON.parse(localStorage.getItem("watchList")) || [];
 
 var getOmdb = function (movieId) {
   var apiUrl = `http://www.omdbapi.com/?i=${movieId}&apikey=65b2c758`;
@@ -16,6 +16,9 @@ var getOmdb = function (movieId) {
         response.json().then(function (data) {
           //add movie to watchlist array
           watchlist.push(data);
+
+          localStorage.setItem("watchList", JSON.stringify(watchlist));
+
           displayWatchlist();
         });
       } else {
@@ -115,8 +118,6 @@ var getSearchImdbID = function (movie) {
 
 var displayMovieSearch = function (movie) {
   console.log(movie);
-
-  
 
   var movieContainerEl = document.createElement("div");
   movieContainerEl.setAttribute("id", "movie-container");
@@ -289,8 +290,10 @@ $("#search-results-container").on(
   function () {
     //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
     var movieId = $(this).parent().attr("id");
+
     getImdbId(movieId);
   }
 );
 
 movieFormEl.addEventListener("submit", formSubmitHandler);
+displayWatchlist();
