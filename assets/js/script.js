@@ -141,7 +141,7 @@ var displayMovieSearch = function (movie) {
 
   if (movie.Poster === "N/A") {
     var noPoster = document.createElement("img");
-    noPoster.setAttribute("src", "/assets/images/oh-snap.jpg");
+    noPoster.setAttribute("src", "assets/images/oh-snap.jpg");
     // poster.classList = "image is-3by4 pt-0";
     posterContainerEl.prepend(noPoster);
   } else {
