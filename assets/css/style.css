@@ -17,11 +17,14 @@ header {
 #search-btn {
   background-color: var(--primary-color);
   color: white;
+  margin: 4px;
+  padding: 4px auto;
 }
 
 #random-btn {
   background-color: var(--secondary-color);
   color: black;
+  border: 1px solid var(--primary-color);
 }
 
 #movie-container {
@@ -32,12 +35,25 @@ header {
   box-shadow: 0 0 10px;
 }
 
+#movie-info {
+  margin: 2px 3px;
+}
+
+#movie-header {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+#search-score-container {
+  border-top: 2px solid var(--primary-color);
+  padding-top: 2px;
+}
+
 .addBtn {
   border: 1px solid var(--primary-color);
   border-radius: 5px;
   padding: 1px;
   margin: 5px;
-  font-size: 10px;
+  font-size: 15px;
 }
 
 #add-to-watch-list-btn {
