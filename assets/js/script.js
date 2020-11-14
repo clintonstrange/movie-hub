@@ -2,19 +2,21 @@ var movieFormEl = document.querySelector("#movie-form");
 var movieInputEl = document.querySelector("#movie-search-input");
 var resultsContainerEl = document.querySelector("#search-results-container");
 
-//array to hold search list data for on click. If anyone has better idea to get moviedb data to on click function feel free to say so
-var movieSearchlist = []
+//array to hold watchlist movies
+var watchlist = [];
 
 var getOmdb = function (movieId) {
   
-  var apiUrl = `http://www.omdbapi.com/?s=${movieTitle}&type=movie&apikey=65b2c758`;
+  var apiUrl = `http://www.omdbapi.com/?i=${movieId}&apikey=65b2c758`;
   // make a request to the url
   fetch(apiUrl)
     .then(function (response) {
       // request was successful
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
+          //add movie to watchlist array
+          watchlist.push(data);
+          displayWatchlist();
         });
       } else {
         // error message if an invalid entery/movie is submitted
@@ -27,15 +29,17 @@ var getOmdb = function (movieId) {
     });
 };
 
-var getImdbId = function (moviedbId) {
-  var apiUrl = `https://api.themoviedb.org/3/find/${moviedbId}?api_key=b2b7dc79b0696d3f9c1db98685b5b36f&language=en-US&external_source=imdb_id`;
+var getImdbId = function(moviedbId) {
+  var apiUrl = `https://api.themoviedb.org/3/movie/${moviedbId}/external_ids?api_key=b2b7dc79b0696d3f9c1db98685b5b36f`;
   // // make a request to the url
   fetch(apiUrl)
     .then(function (response) {
       // request was successful
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
+          //send imdb id to getOmdb function to retrieve that specific movies data
+          var imdbId = data.imdb_id;
+          getOmdb(imdbId);
         });
       } else {
         // error message if an invalid entery/movie is submitted
@@ -48,7 +52,7 @@ var getImdbId = function (moviedbId) {
     });
 };
 
-var getMovie = function (movie) {
+var getMovie = function(movie) {
   var apiUrl = `https://api.themoviedb.org/3/search/movie?query=${movie}&api_key=b2b7dc79b0696d3f9c1db98685b5b36f`;
   // // make a request to the url
   fetch(apiUrl)
@@ -57,8 +61,6 @@ var getMovie = function (movie) {
       if (response.ok) {
         response.json().then(function (data) {
           //console.log(data);
-          //set data to movieSearchList array so on click functions can use
-          movieSearchlist = data;
           displayMovieSearch(data);
         });
       } else {
@@ -72,7 +74,7 @@ var getMovie = function (movie) {
     });
 };
 
-var displayMovieSearch = function (movie) {
+var displayMovieSearch = function(movie) {
   resultsContainerEl.innerHTML = "";
 
   for (var i = 0; i < movie.results.length; i++) {
@@ -121,6 +123,8 @@ var displayMovieSearch = function (movie) {
 
     var btnContainerEl = document.createElement("div");
     btnContainerEl.classList = "columns my-3";
+    //!! adding each movies individual moviedbId to the buttons parent so it can be easily sent to getImdbId function
+    btnContainerEl.setAttribute("id", movie.results[i].id);
     movieInfoContainerEl.appendChild(btnContainerEl);
 
     var addToWatchListBtn = document.createElement("button");
@@ -137,7 +141,11 @@ var displayMovieSearch = function (movie) {
   }
 };
 
-var formSubmitHandler = function (event) {
+var displayWatchlist = function() {
+  console.log(watchlist)
+};
+
+var formSubmitHandler = function(event) {
   event.preventDefault();
 
   // get value from input element
@@ -152,7 +160,9 @@ var formSubmitHandler = function (event) {
 
 //click on add to watchlist
 $("#search-results-container").on("click", "#add-to-watch-list-btn", function() {
-  
+  //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
+  var movieId = $(this).parent().attr("id");
+  getImdbId(movieId);
 });
 
 
