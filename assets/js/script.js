@@ -2,10 +2,34 @@ var movieFormEl = document.querySelector("#movie-form");
 var movieInputEl = document.querySelector("#movie-search-input");
 var resultsContainerEl = document.querySelector("#search-results-container");
 
+//array to hold search list data for on click. If anyone has better idea to get moviedb data to on click function feel free to say so
+var movieSearchlist = []
+
 var getOmdb = function (movieId) {
   
   var apiUrl = `http://www.omdbapi.com/?s=${movieTitle}&type=movie&apikey=65b2c758`;
   // make a request to the url
+  fetch(apiUrl)
+    .then(function (response) {
+      // request was successful
+      if (response.ok) {
+        response.json().then(function (data) {
+          console.log(data);
+        });
+      } else {
+        // error message if an invalid entery/movie is submitted
+        alert("Error: " + response.statusText);
+      }
+    })
+    .catch(function (error) {
+      // catch set up incase Open Weather is down or internet is disconnected
+      alert("Unable to connect to The Movie Database");
+    });
+};
+
+var getImdbId = function (moviedbId) {
+  var apiUrl = `https://api.themoviedb.org/3/find/${moviedbId}?api_key=b2b7dc79b0696d3f9c1db98685b5b36f&language=en-US&external_source=imdb_id`;
+  // // make a request to the url
   fetch(apiUrl)
     .then(function (response) {
       // request was successful
@@ -33,7 +57,9 @@ var getMovie = function (movie) {
       if (response.ok) {
         response.json().then(function (data) {
           //console.log(data);
-          displayMovies(data);
+          //set data to movieSearchList array so on click functions can use
+          movieSearchlist = data;
+          displayMovieSearch(data);
         });
       } else {
         // error message if an invalid entery/movie is submitted
@@ -46,7 +72,7 @@ var getMovie = function (movie) {
     });
 };
 
-var displayMovies = function (movie) {
+var displayMovieSearch = function (movie) {
   resultsContainerEl.innerHTML = "";
 
   for (var i = 0; i < movie.results.length; i++) {
@@ -124,10 +150,10 @@ var formSubmitHandler = function (event) {
   }
 };
 
-/* var displayWatchlist = function {
-  console.log()
-}; */
-
+//click on add to watchlist
+$("#search-results-container").on("click", "#add-to-watch-list-btn", function() {
+  
+});
 
 
 movieFormEl.addEventListener("submit", formSubmitHandler);
