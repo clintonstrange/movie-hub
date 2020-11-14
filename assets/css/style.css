@@ -48,3 +48,13 @@ header {
 #add-to-seen-list-btn {
   background-color: var(--secondary-color);
 }
+
+/* styling for watchlist display */
+.watch-poster {
+  max-width: 20%;
+  border-radius: 5px;
+}
+.movie-plot {
+  border-top: 1px black solid;
+  width: 90%;
+}

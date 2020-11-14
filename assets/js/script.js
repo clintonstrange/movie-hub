@@ -1,6 +1,7 @@
 var movieFormEl = document.querySelector("#movie-form");
 var movieInputEl = document.querySelector("#movie-search-input");
 var resultsContainerEl = document.querySelector("#search-results-container");
+var watchlistContainerEl = document.querySelector("#watch-list-container")
 
 //array to hold watchlist movies
 var watchlist = [];
@@ -142,7 +143,9 @@ var displayMovieSearch = function(movie) {
 };
 
 var displayWatchlist = function() {
-  console.log(watchlist)
+  console.log(watchlist);
+  /* var movieContainerEl = $("<div>").addClass("card movie-container")
+  watchlistContainerEl.appendChild(movieContainerEl) */
 };
 
 var formSubmitHandler = function(event) {
