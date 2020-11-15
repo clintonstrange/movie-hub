@@ -206,3 +206,12 @@ $("#search-results-container").on("click", "#add-to-watch-list-btn", function() 
 
 
 movieFormEl.addEventListener("submit", formSubmitHandler);
+
+//Random movie
+
+let randomMovie = document.querySelector("#random-btn")
+let modal = document.querySelector(".modal");
+randomMovie.addEventListener("click", function (){
+  let target = document.getElementById(this.dataset.target);
+  modal.classList.add("is-active");
+})
