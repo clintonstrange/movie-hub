@@ -268,8 +268,12 @@ var displayWatchlist = function () {
     watchlistContainerEl.append(movieContainerEl);
 
     var posterEl = $("<img>")
-      .attr("src", watchlist[i].Poster)
       .addClass("watch-poster mr-3");
+    if (watchlist[i].Poster === "N/A") {
+        posterEl.attr("src", "assets/images/oh-snap.jpg")
+    } else {
+        posterEl.attr("src", watchlist[i].Poster)
+    }
     var textContainer = $("<div>");
     movieContainerEl.append(posterEl, textContainer);
 
