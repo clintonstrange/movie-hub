@@ -155,7 +155,6 @@ var getSearchMovieInfo = function (movieID) {
 };
 
 var getSearchImdbID = function (movie) {
-  // resultsContainerEl.innerHTML = "";
   //console.log(movie);
   for (var i = 0; i < movie.results.length; i++) {
     var movieID = movie.results[i].id;
@@ -165,11 +164,8 @@ var getSearchImdbID = function (movie) {
 };
 
 var displayMovieSearch = function (movie) {
-  // resultsContainerEl.innerHTML = "";
   console.log(movie);
 
-  // for (var i = 0; i < movie.results.length; i++) {
-  //   console.log(movie.results[i]);
   var movieContainerEl = document.createElement("div");
   movieContainerEl.setAttribute("id", "movie-container");
   movieContainerEl.classList = "columns";
@@ -303,10 +299,16 @@ var displaySeenlist = function () {
       .addClass("is-size-4")
       .text(`Imdb Score: ${seenlist[i].imdbRating}`);
     var rtScore = $("<p>").addClass("is-size-4");
-    if (!seenlist[i].Ratings[1]) {
+    if (!watchlist[i].Ratings[1]) {
       rtScore.text(`Tomatometer: N/A`);
     } else {
-      rtScore.text(`Tomatometer: ${seenlist[i].Ratings[1].Value}`);
+      rtScore.text(`Tomatometer: ${watchlist[i].Ratings[1].Value}`);
+    }
+    var rtScore = $("<p>").addClass("is-size-4");
+    if (!watchlist[i].Ratings[1]) {
+      rtScore.text(`Tomatometer: N/A`);
+    } else {
+      rtScore.text(`Tomatometer: ${watchlist[i].Ratings[1].Value}`);
     }
     scoreContainer.append(imdbScore, rtScore);
 
