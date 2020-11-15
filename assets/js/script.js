@@ -302,12 +302,6 @@ var displayWatchlist = function () {
     var imdbScore = $("<p>")
       .addClass("is-size-4")
       .text(`Imdb Score: ${watchlist[i].imdbRating}`);
-    var rtScore = $("<p>").addClass("is-size-4");
-    if (!watchlist[i].Ratings[1]) {
-      rtScore.text(`Tomatometer: N/A`);
-    } else {
-      rtScore.text(`Tomatometer: ${watchlist[i].Ratings[1].Value}`);
-    }
     scoreContainer.append(imdbScore, rtScore);
 
     textContainer.append(
