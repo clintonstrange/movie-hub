@@ -302,6 +302,12 @@ var displayWatchlist = function () {
     var imdbScore = $("<p>")
       .addClass("is-size-4")
       .text(`Imdb Score: ${watchlist[i].imdbRating}`);
+    var rtScore = $("<p>").addClass("is-size-4");
+    if (!watchlist[i].Ratings[1]) {
+        rtScore.text(`Tomatometer: N/A`);
+    } else {
+        rtScore.text(`Tomatometer: ${watchlist[i].Ratings[1].Value}`);
+    }
     scoreContainer.append(imdbScore, rtScore);
 
     textContainer.append(
@@ -355,3 +361,12 @@ $("#search-results-container").on(
 
 movieFormEl.addEventListener("submit", formSubmitHandler);
 displayWatchlist();
+
+//Random movie
+
+let randomMovie = document.querySelector("#random-btn")
+let modal = document.querySelector(".modal");
+randomMovie.addEventListener("click", function (){
+  let target = document.getElementById(this.dataset.target);
+  modal.classList.add("is-active");
+})

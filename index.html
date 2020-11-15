@@ -32,6 +32,7 @@
         </nav>
     </header> 
     <main class="columns">
+        
         <div id="search-container" class="column is-one-third m-2">
             <div id="form-container" class="column is-full">
                 <form id="movie-form" class="columns">
@@ -39,7 +40,25 @@
                     <button id="search-btn" type="submit" class="button"><span>Submit</span></button>
                 </form>
             </div>
+
             <button id="random-btn" class="button is-full-width is-success column is-full my-2 p-2">Find Random Movie</button>
+            <div class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                  <header class="modal-card-head">
+                    <p class="modal-card-title">Modal title</p>
+                    <button class="delete" aria-label="close"></button>
+                  </header>
+                  <section class="modal-card-body">
+                    <!-- Content ... -->
+                  </section>
+                  <footer class="modal-card-foot">
+                    <button class="button is-success">Save changes</button>
+                    <button class="button">Cancel</button>
+                  </footer>
+                </div>
+            </div>
+
             <div id="search-results-container" class="column is-full">
 
             </div>
