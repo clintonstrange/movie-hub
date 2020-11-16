@@ -244,13 +244,13 @@ var displayMovieSearch = function (movie) {
   movieInfoContainerEl.appendChild(btnContainerEl);
 
   var addToWatchListBtn = document.createElement("button");
-  addToWatchListBtn.classList = "addBtn m-1 column is-two-fifths";
+  addToWatchListBtn.classList = "addBtn m-1 column is-two-fifths watch-btn-styling";
   addToWatchListBtn.setAttribute("id", "add-to-watch-list-btn");
   addToWatchListBtn.textContent = "Add To Watch List";
   btnContainerEl.appendChild(addToWatchListBtn);
 
   var addToSeenListBtn = document.createElement("button");
-  addToSeenListBtn.classList = "addBtn m-1 column is-two-fifths";
+  addToSeenListBtn.classList = "addBtn m-1 column is-two-fifths seen-btn-styling";
   addToSeenListBtn.setAttribute("id", "add-to-seen-list-btn");
   addToSeenListBtn.textContent = "Add To Seen List";
   btnContainerEl.appendChild(addToSeenListBtn);
