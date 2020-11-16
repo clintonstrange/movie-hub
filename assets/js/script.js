@@ -18,11 +18,11 @@ var getOmdb = function (movieId, check) {
           if (!check) {
             watchlist.unshift(data);
             localStorage.setItem("watchList", JSON.stringify(watchlist));
-            displayWatchlist(check);
+            displayMovieList(check);
           } else {
             seenlist.unshift(data);
             localStorage.setItem("seenList", JSON.stringify(seenlist));
-            displayWatchlist(check);
+            displayMovieList(check);
           }
         });
       } else {
@@ -206,7 +206,7 @@ var displayMovieSearch = function (movie) {
   // }
 };
 
-var displayWatchlist = function (check) {
+var displayMovieList = function (check) {
   //checks if function needs to display watchlist or seenlist
   if (!check) {
     var list = watchlist
@@ -297,11 +297,12 @@ var formSubmitHandler = function (event) {
   }
 };
 
+//determines which html page is on and loads correct list
 var loadMovieList = function() {
   if ( document.URL.includes("index.html") ) {
-    displayWatchlist(0);
+    displayMovieList(0);
   } else if( document.URL.includes("seen-list.html")){
-    displayWatchlist(1)
+    displayMovieList(1)
   }
 };
 
