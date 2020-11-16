@@ -64,12 +64,12 @@ a.navbar-item:hover {
   font-size: 15px;
 }
 
-#add-to-watch-list-btn {
+.watch-btn-styling {
   background-color: var(--primary-color);
   color: white;
 }
 
-#add-to-seen-list-btn {
+.seen-btn-styling {
   background-color: var(--secondary-color);
 }
 
