@@ -12,25 +12,31 @@
     <title>Movie Hub</title>
 </head>
 <body>
-    <header class="mb-2">
-        <nav id="navbar" class="navbar" role="navigation aria-label=main navigation">
+    <header>
+        <nav id="navbar" class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item" href="index.html">
                     <h1 class="title is-1 has-text-white">Movie Hub</h1>
                 </a>
+                <a role="button" class="navbar-burger burger nav-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+                    <span aria-hidden="true" class="has-text-white"></span>
+                    <span aria-hidden="true" class="has-text-white"></span>
+                    <span aria-hidden="true" class="has-text-white"></span>
+                  </a>
             </div>
-            <div class="navbar-menu">
+
+            <div id="navMenu" class="navbar-menu pt-0">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="index.html">
-                        <h2 class="is-1 has-text-white">Watch List</h2>
+                    <a class="navbar-item nav-list-item" href="index.html">
+                        <h2 class="has-text-white">Watch List</h2>
                     </a>
-                    <a class="navbar-item" href="seen-list.html">
-                        <h2 class="is-1 has-text-white">Seen List</h2>
+                    <a class="navbar-item nav-list-item" href="seen-list.html">
+                        <h2 class="has-text-white">Seen List</h2>
                     </a>
                 </div>
             </div>
         </nav>
-    </header> 
+    </header>  
     <main class="columns">
         <div id="search-container" class="column is-one-third m-2">
             <div id="form-container" class="column is-full">
@@ -39,7 +45,7 @@
                     <button id="search-btn" type="submit" class="button"><span>Submit</span></button>
                 </form>
             </div>
-            
+
             <button id="random-btn" class="button is-full-width is-success column is-full my-2 p-2">Find Random Movie</button>
             
             <div class="modal" id="search-modal">
@@ -71,7 +77,6 @@
                   </footer>
                 </div>
             </div>
-            
         </div>
         <div class="column">
             <!-- <div id="reddit-container">Reddit Articles</div> -->

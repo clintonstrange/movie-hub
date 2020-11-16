@@ -144,17 +144,17 @@ var displayMovieSearch = function (movie) {
       "src",
       "https://image.tmdb.org/t/p/original/" + movie.poster_path
     );
-    poster.classList = "image is-3by4 pt-0";
+    poster.classList = "watch-poster is-3by4 pt-0";
     posterContainerEl.prepend(poster);
   }
 
   var title = document.createElement("h2");
-  title.classList = "has-text-weight-bold";
+  title.classList = "is-size-4 has-text-centered has-text-weight-bold";
   title.textContent = movie.title;
   movieHeaderContainerEl.appendChild(title);
 
   var release = document.createElement("p");
-  release.classList = "is-size-7 has-text-weight-medium";
+  release.classList = "has-text-centered is-size-6 has-text-weight-medium";
   release.textContent =
     "Released: " +
     movie.release_date +
@@ -164,26 +164,25 @@ var displayMovieSearch = function (movie) {
   movieHeaderContainerEl.appendChild(release);
 
   var overview = document.createElement("p");
-  overview.classList = "column is-full is-size-7 px-0 pt-0 pb-1";
+  overview.classList =
+    "has-text-centered column is-full is-size-6 px-0 pt-0 pb-1";
   overview.textContent = movie.overview;
   movieInfoContainerEl.appendChild(overview);
 
   var btnContainerEl = document.createElement("div");
-  btnContainerEl.classList = "columns my-3";
+  btnContainerEl.classList = "is-flex is-justify-content-space-around";
   //!! adding each movies individual moviedbId to the buttons parent so it can be easily sent to getImdbId function
   btnContainerEl.setAttribute("id", movie.imdb_id);
   movieInfoContainerEl.appendChild(btnContainerEl);
 
   var addToWatchListBtn = document.createElement("button");
-  addToWatchListBtn.classList =
-    "addBtn m-1 column is-two-fifths watch-btn-styling";
+  addToWatchListBtn.classList = "addBtn m-1 p-3 watch-btn-styling";
   addToWatchListBtn.setAttribute("id", "add-to-watch-list-btn");
   addToWatchListBtn.textContent = "Add To Watch List";
   btnContainerEl.appendChild(addToWatchListBtn);
 
   var addToSeenListBtn = document.createElement("button");
-  addToSeenListBtn.classList =
-    "addBtn m-1 column is-two-fifths seen-btn-styling";
+  addToSeenListBtn.classList = "addBtn m-1 p-3 seen-btn-styling";
   addToSeenListBtn.setAttribute("id", "add-to-seen-list-btn");
   addToSeenListBtn.textContent = "Add To Seen List";
   btnContainerEl.appendChild(addToSeenListBtn);
@@ -209,7 +208,7 @@ var displayMovieList = function (check) {
     var movieContainerEl = $("<div>").addClass("card p-3 is-flex");
     listContainerEl.append(movieContainerEl);
 
-    var posterEl = $("<img>").addClass("mr-3 is-3by4 is-hidden-mobile");
+    var posterEl = $("<img>").addClass("watch-poster mr-3");
     if (list[i].Poster === "N/A") {
       posterEl.attr("src", "assets/images/oh-snap.jpg");
     } else {
@@ -267,12 +266,11 @@ var displayMovieList = function (check) {
 };
 
 $("#search-btn").on("click", function () {
-  event.preventDefault();
-
-  $("#search-modal").addClass("is-active");
-
   var movieTitle = movieInputEl.value.trim();
   if (movieTitle) {
+    event.preventDefault();
+
+    $("#search-modal").addClass("is-active");
     resultsContainerEl.innerHTML = "";
     getMovie(movieTitle);
     movieInputEl.value = "";
