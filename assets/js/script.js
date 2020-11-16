@@ -6,7 +6,7 @@ var resultsContainerEl = document.querySelector("#search-results-container");
 var watchlist = JSON.parse(localStorage.getItem("watchList")) || [];
 var seenlist = JSON.parse(localStorage.getItem("seenList")) || [];
 
-var getOmdb = function (movieId) {
+var getOmdb = function (movieId, check) {
   var apiUrl = `http://www.omdbapi.com/?i=${movieId}&apikey=65b2c758`;
   // make a request to the url
   fetch(apiUrl)
@@ -14,12 +14,16 @@ var getOmdb = function (movieId) {
       // request was successful
       if (response.ok) {
         response.json().then(function (data) {
-          //add movie to watchlist array
-          watchlist.push(data);
-
-          localStorage.setItem("watchList", JSON.stringify(watchlist));
-
-          displayWatchlist();
+          //based on check (0 or 1) taken from on click functions from buttons choose to
+          if (!check) {
+            watchlist.unshift(data);
+            localStorage.setItem("watchList", JSON.stringify(watchlist));
+            displayWatchlist(check);
+          } else {
+            seenlist.unshift(data);
+            localStorage.setItem("seenList", JSON.stringify(seenlist));
+            displayWatchlist(check);
+          }
         });
       } else {
         // error message if an invalid entery/movie is submitted
@@ -32,31 +36,7 @@ var getOmdb = function (movieId) {
     });
 };
 
-var getOmdbForSeenList = function (movieId) {
-  var apiUrl = `http://www.omdbapi.com/?i=${movieId}&apikey=65b2c758`;
-  // make a request to the url
-  fetch(apiUrl)
-    .then(function (response) {
-      // request was successful
-      if (response.ok) {
-        response.json().then(function (data) {
-          //add movie to watchlist array
-          seenlist.push(data);
-
-          localStorage.setItem("seenList", JSON.stringify(seenlist));
-        });
-      } else {
-        // error message if an invalid entery/movie is submitted
-        alert("Error: " + response.statusText);
-      }
-    })
-    .catch(function (error) {
-      // catch set up incase Open Weather is down or internet is disconnected
-      alert("Unable to connect to The Movie Database");
-    });
-};
-
-var getImdbId = function (moviedbId) {
+var getImdbId = function (moviedbId, check) {
   var apiUrl = `https://api.themoviedb.org/3/movie/${moviedbId}/external_ids?api_key=b2b7dc79b0696d3f9c1db98685b5b36f`;
   // // make a request to the url
   fetch(apiUrl)
@@ -66,30 +46,7 @@ var getImdbId = function (moviedbId) {
         response.json().then(function (data) {
           //send imdb id to getOmdb function to retrieve that specific movies data
           var imdbId = data.imdb_id;
-          getOmdb(imdbId);
-        });
-      } else {
-        // error message if an invalid entery/movie is submitted
-        alert("Error: " + response.statusText);
-      }
-    })
-    .catch(function (error) {
-      // catch set up incase Open Weather is down or internet is disconnected
-      alert("Unable to connect to The Movie Database");
-    });
-};
-
-var getImdbIdForSeenList = function (moviedbId) {
-  var apiUrl = `https://api.themoviedb.org/3/movie/${moviedbId}/external_ids?api_key=b2b7dc79b0696d3f9c1db98685b5b36f`;
-  // // make a request to the url
-  fetch(apiUrl)
-    .then(function (response) {
-      // request was successful
-      if (response.ok) {
-        response.json().then(function (data) {
-          //send imdb id to getOmdb function to retrieve that specific movies data
-          var imdbId = data.imdb_id;
-          getOmdbForSeenList(imdbId);
+          getOmdb(imdbId, check);
         });
       } else {
         // error message if an invalid entery/movie is submitted
@@ -113,7 +70,6 @@ var getMovie = function (movie) {
       // request was successful
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
           getSearchImdbID(data);
         });
       } else {
@@ -127,13 +83,11 @@ var getMovie = function (movie) {
 };
 
 var getSearchMovieInfo = function (movieID) {
-  // console.log(movieID);
   var apiUrl =
     "https://api.themoviedb.org/3/movie/" +
     movieID +
     "?api_key=b2b7dc79b0696d3f9c1db98685b5b36f";
   // make a request to the url
-  console.log(apiUrl);
   fetch(apiUrl)
     .then(function (response) {
       // request was successful
@@ -155,20 +109,16 @@ var getSearchMovieInfo = function (movieID) {
 
 var getSearchImdbID = function (movie) {
   // resultsContainerEl.innerHTML = "";
-  //console.log(movie);
   for (var i = 0; i < movie.results.length; i++) {
     var movieID = movie.results[i].id;
-    // console.log(movieID);
     getSearchMovieInfo(movieID);
   }
 };
 
 var displayMovieSearch = function (movie) {
   // resultsContainerEl.innerHTML = "";
-  console.log(movie);
 
   // for (var i = 0; i < movie.results.length; i++) {
-  //   console.log(movie.results[i]);
   var movieContainerEl = document.createElement("div");
   movieContainerEl.setAttribute("id", "movie-container");
   movieContainerEl.classList = "columns";
@@ -256,60 +206,69 @@ var displayMovieSearch = function (movie) {
   // }
 };
 
-var displayWatchlist = function () {
-  console.log(watchlist);
-  //clear watch list container
-  var watchlistContainerEl = $("#watch-list-container");
-  watchlistContainerEl.empty();
+var displayWatchlist = function (check) {
+  //checks if function needs to display watchlist or seenlist
+  if (!check) {
+    var list = watchlist
+    var listContainerEl = $("#watch-list-container");
+    console.log("watch")
+  } else {
+    var list = seenlist
+    var listContainerEl = $("#seen-list-container");
+    console.log("seen")
+  };
 
-  for (i = 0; i < watchlist.length; i++) {
+  //clear list container
+  listContainerEl.empty();
+
+  for (i = 0; i < list.length; i++) {
     var movieContainerEl = $("<div>").addClass("card p-3 is-flex");
-    watchlistContainerEl.append(movieContainerEl);
+    listContainerEl.append(movieContainerEl);
 
     var posterEl = $("<img>")
       .addClass("watch-poster mr-3");
-    if (watchlist[i].Poster === "N/A") {
+    if (list[i].Poster === "N/A") {
         posterEl.attr("src", "assets/images/oh-snap.jpg")
     } else {
-        posterEl.attr("src", watchlist[i].Poster)
+        posterEl.attr("src", list[i].Poster)
     }
     var textContainer = $("<div>");
     movieContainerEl.append(posterEl, textContainer);
 
     var titleEl = $("<h2>")
       .addClass("is-size-1 has-text-weight-semibold")
-      .text(`${watchlist[i].Title} (${watchlist[i].Year})`);
+      .text(`${list[i].Title} (${list[i].Year})`);
     var directorEl = $("<p>")
       .addClass("is-size-3")
-      .text(`Directed by ${watchlist[i].Director}`);
+      .text(`Directed by ${list[i].Director}`);
     var genreEl = $("<p>")
       .addClass("is-size-3")
-      .text(`Genre: ${watchlist[i].Genre}`);
+      .text(`Genre: ${list[i].Genre}`);
 
     var subtextContainer = $("<div>").addClass("is-flex");
     var runtimeEl = $("<p>")
       .addClass("is-size-4 mr-6 mb-1")
-      .text(`Runtime: ${watchlist[i].Runtime}`);
+      .text(`Runtime: ${list[i].Runtime}`);
     var ratingEl = $("<p>")
       .addClass("is-size-4")
-      .text(`Rated: ${watchlist[i].Rated}`);
+      .text(`Rated: ${list[i].Rated}`);
     subtextContainer.append(runtimeEl, ratingEl);
 
     var plotEl = $("<p>")
       .addClass("is-size-4 movie-plot py-2")
-      .text(watchlist[i].Plot);
+      .text(list[i].Plot);
 
     var scoreContainer = $("<div>").addClass(
       "is-flex is-justify-content-space-around score mt-3"
     );
     var imdbScore = $("<p>")
       .addClass("is-size-4")
-      .text(`Imdb Score: ${watchlist[i].imdbRating}`);
+      .text(`Imdb Score: ${list[i].imdbRating}`);
     var rtScore = $("<p>").addClass("is-size-4");
-    if (!watchlist[i].Ratings[1]) {
+    if (!list[i].Ratings[1]) {
         rtScore.text(`Tomatometer: N/A`);
     } else {
-        rtScore.text(`Tomatometer: ${watchlist[i].Ratings[1].Value}`);
+        rtScore.text(`Tomatometer: ${list[i].Ratings[1].Value}`);
     }
     scoreContainer.append(imdbScore, rtScore);
 
@@ -338,6 +297,14 @@ var formSubmitHandler = function (event) {
   }
 };
 
+var loadMovieList = function() {
+  if ( document.URL.includes("index.html") ) {
+    displayWatchlist(0);
+  } else if( document.URL.includes("seen-list.html")){
+    displayWatchlist(1)
+  }
+};
+
 //click on add to watchlist
 $("#search-results-container").on(
   "click",
@@ -345,8 +312,8 @@ $("#search-results-container").on(
   function () {
     //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
     var movieId = $(this).parent().attr("id");
-
-    getImdbId(movieId);
+    //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
+    getImdbId(movieId, 0);
   }
 );
 
@@ -357,8 +324,8 @@ $("#search-results-container").on(
   function () {
     //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
     var movieId = $(this).parent().attr("id");
-
-    getImdbIdForSeenList(movieId);
+    //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
+    getImdbId(movieId, 1);
   }
 );
 
@@ -379,4 +346,4 @@ $("#random-seen-btn").on("click", function() {
 
 movieFormEl.addEventListener("submit", formSubmitHandler);
 
-displayWatchlist();
+loadMovieList();
