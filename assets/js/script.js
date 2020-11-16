@@ -338,10 +338,6 @@ var formSubmitHandler = function (event) {
   }
 };
 
-var pickRandomMovie = function() {
-  
-};
-
 //click on add to watchlist
 $("#search-results-container").on(
   "click",
@@ -366,7 +362,7 @@ $("#search-results-container").on(
   }
 );
 
-//click hanlders for random button and modals
+//click hanlders for random button and modal buttons
 $("#random-btn").on("click", function() {
   $("#random-modal").addClass("is-active");
   pickRandomMovie();
@@ -384,12 +380,3 @@ $("#random-seen-btn").on("click", function() {
 movieFormEl.addEventListener("submit", formSubmitHandler);
 
 displayWatchlist();
-
-//Random movie
-
-
-/* var modal = document.querySelector("#random-modal");
-randomMovieBtn.addEventListener("click", function (){
-  let target = document.getElementById(this.dataset.target);
-  modal.classList.add("is-active");
-}) */
