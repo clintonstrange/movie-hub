@@ -22,6 +22,14 @@ a.navbar-item:hover {
   background-color: var(--secondary-color);
 }
 
+.nav-list-item {
+  background-color: var(--primary-color);
+}
+
+.nav-burger {
+  margin: auto 0;
+}
+
 #search-btn {
   background-color: var(--primary-color);
   color: white;
@@ -64,20 +72,20 @@ a.navbar-item:hover {
   font-size: 15px;
 }
 
-#add-to-watch-list-btn {
+.watch-btn-styling {
   background-color: var(--primary-color);
   color: white;
 }
 
-#add-to-seen-list-btn {
+.seen-btn-styling {
   background-color: var(--secondary-color);
 }
 
 /* styling for watchlist display */
-.watch-poster {
+/* .poster {
   max-width: 20%;
   border-radius: 5px;
-}
+} */
 .movie-plot {
   border-top: 1px black solid;
   border-bottom: 1px black solid;
