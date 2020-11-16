@@ -1,7 +1,6 @@
 var movieFormEl = document.querySelector("#movie-form");
 var movieInputEl = document.querySelector("#movie-search-input");
 var resultsContainerEl = document.querySelector("#search-results-container");
-/* var watchlistContainerEl = document.querySelector("#watch-list-container") */
 
 //array to hold watchlist movies
 var watchlist = JSON.parse(localStorage.getItem("watchList")) || [];
@@ -339,6 +338,10 @@ var formSubmitHandler = function (event) {
   }
 };
 
+var pickRandomMovie = function() {
+  
+};
+
 //click on add to watchlist
 $("#search-results-container").on(
   "click",
@@ -363,14 +366,25 @@ $("#search-results-container").on(
   }
 );
 
+//click hanlders for random button and modals
+$("#random-btn").on("click", function() {
+  $("#random-modal").addClass("is-active");
+  pickRandomMovie();
+});
+$(".delete").on("click", function() {
+  $("#random-modal").removeClass("is-active")
+});
+
+
 movieFormEl.addEventListener("submit", formSubmitHandler);
+
 displayWatchlist();
 
 //Random movie
 
-let randomMovie = document.querySelector("#random-btn")
-let modal = document.querySelector(".modal");
-randomMovie.addEventListener("click", function (){
+
+/* var modal = document.querySelector("#random-modal");
+randomMovieBtn.addEventListener("click", function (){
   let target = document.getElementById(this.dataset.target);
   modal.classList.add("is-active");
-})
+}) */
