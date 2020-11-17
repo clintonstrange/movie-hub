@@ -229,12 +229,13 @@ var displayMovieList = function (check) {
     var listContainerEl = $("#seen-list-container");
     // console.log("seen");
   }
-
+  //set var for ranking
+  var rank = 1
   //clear list container
   listContainerEl.empty();
-
+  
   for (i = 0; i < list.length; i++) {
-    var movieContainerEl = $("<div>").addClass("card p-3 mb-1 is-flex has-background-white-ter list-item-container");
+    var movieContainerEl = $("<div>").addClass("card mb-1 is-flex has-background-white-ter list-item-container");
     listContainerEl.append(movieContainerEl);
 
     var posterEl = $("<img>").addClass("watch-poster mr-3");
@@ -297,6 +298,18 @@ var displayMovieList = function (check) {
     }
     
     scoreContainer.append(imdbScore, rtScore, btnContainer);
+
+    //create html for rank then add 1 to number
+    var rankContainer = $("<div>")
+      .addClass("is-flex is-align-items-center is-size-4")
+    var rankEl = $("<div>")
+      .addClass("sort-container")
+      .html(`<p class="p-3"> ${rank}. </br> <i class="fas fa-align-justify"></i></p>`);
+    rankContainer.append(rankEl);
+    rank++;
+    if (check) {
+      movieContainerEl.append(rankContainer)
+    }
 
     textContainer.append(
       titleEl,

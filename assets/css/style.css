@@ -178,6 +178,9 @@ a.nav-list-item:hover {
   border-top: var(--primary-color) solid 2px;
   border-left: var(--primary-color) solid 2px;
   border-bottom: var(--primary-color) solid 2px;
+  padding-top: .75rem;
+  padding-left: .75rem;
+  padding-bottom: .75rem;
 }
 .text-container {
   width: 100%;
@@ -196,4 +199,12 @@ a.nav-list-item:hover {
 }
 .trash-btn {
   border: 3px solid var(--primary-color);
+}
+.sort-container {
+  border-top: black 2px solid;
+  border-left: black 2px solid;
+  border-bottom: black 2px solid;
+  border-radius: 3px;
+  background-color: var(--primary-color);
+  color: white;
 }
