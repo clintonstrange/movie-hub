@@ -175,7 +175,7 @@ a.nav-list-item:hover {
 
 /* styling for watchlist display */
 .watch-poster {
-  /* max-width: 20%; */
+  max-width: 20%;
   border-radius: 5px;
 }
 .movie-plot {

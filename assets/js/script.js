@@ -14,16 +14,22 @@ var getOmdb = function (movieId, check) {
       // request was successful
       if (response.ok) {
         response.json().then(function (data) {
-          //based on check (0 or 1) taken from on click functions from buttons choose to
-          if (!check) {
-            watchlist.unshift(data);
-            localStorage.setItem("watchList", JSON.stringify(watchlist));
-            displayMovieList(check);
+          //check if movie beind added is already on list
+          if (watchlist.some(movie => movie.imdbID === data.imdbID)) {
+            console.log("success")
           } else {
-            seenlist.unshift(data);
-            localStorage.setItem("seenList", JSON.stringify(seenlist));
-            displayMovieList(check);
-          }
+            //based on check (0 or 1) taken from on click functions from buttons choose to
+            if (!check) {
+              console.log(data)
+              watchlist.unshift(data);
+              localStorage.setItem("watchList", JSON.stringify(watchlist));
+              displayMovieList(check);
+            } else {
+              seenlist.unshift(data);
+              localStorage.setItem("seenList", JSON.stringify(seenlist));
+              displayMovieList(check);
+            }
+          }  
         });
       } else {
         // error message if an invalid entery/movie is submitted
@@ -71,6 +77,7 @@ var getMovie = function (movie) {
       // request was successful
       if (response.ok) {
         response.json().then(function (data) {
+          console.log(data)
           getSearchImdbID(data);
         });
       } else {
