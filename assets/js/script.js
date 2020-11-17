@@ -144,17 +144,19 @@ var displayMovieSearch = function (movie) {
       "src",
       "https://image.tmdb.org/t/p/original/" + movie.poster_path
     );
-    poster.classList = "watch-poster is-3by4 pt-0";
+    poster.classList = "search-poster is-3by4 pt-0";
     posterContainerEl.prepend(poster);
   }
 
   var title = document.createElement("h2");
-  title.classList = "is-size-4 has-text-centered has-text-weight-bold";
+  title.classList =
+    "is-size-4 has-text-centered has-text-white has-text-weight-bold";
   title.textContent = movie.title;
   movieHeaderContainerEl.appendChild(title);
 
   var release = document.createElement("p");
-  release.classList = "has-text-centered is-size-6 has-text-weight-medium";
+  release.classList =
+    "has-text-centered is-size-6 has-text-white has-text-weight-medium";
   release.textContent =
     "Released: " +
     movie.release_date +
@@ -165,7 +167,7 @@ var displayMovieSearch = function (movie) {
 
   var overview = document.createElement("p");
   overview.classList =
-    "has-text-centered column is-full is-size-6 px-0 pt-0 pb-1";
+    "has-text-white has-text-centered column is-full is-size-6 px-0 pt-0 pb-1";
   overview.textContent = movie.overview;
   movieInfoContainerEl.appendChild(overview);
 
@@ -176,17 +178,16 @@ var displayMovieSearch = function (movie) {
   movieInfoContainerEl.appendChild(btnContainerEl);
 
   var addToWatchListBtn = document.createElement("button");
-  addToWatchListBtn.classList = "addBtn m-1 p-3 watch-btn-styling";
+  addToWatchListBtn.classList = "btn m-1 p-3 watch-btn-styling";
   addToWatchListBtn.setAttribute("id", "add-to-watch-list-btn");
   addToWatchListBtn.textContent = "Add To Watch List";
   btnContainerEl.appendChild(addToWatchListBtn);
 
   var addToSeenListBtn = document.createElement("button");
-  addToSeenListBtn.classList = "addBtn m-1 p-3 seen-btn-styling";
+  addToSeenListBtn.classList = "btn m-1 p-3 seen-btn-styling";
   addToSeenListBtn.setAttribute("id", "add-to-seen-list-btn");
   addToSeenListBtn.textContent = "Add To Seen List";
   btnContainerEl.appendChild(addToSeenListBtn);
-  // }
 };
 
 var displayMovieList = function (check) {
