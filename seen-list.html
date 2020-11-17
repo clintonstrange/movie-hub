@@ -12,34 +12,55 @@
     <title>Movie Hub</title>
 </head>
 <body>
-    <header class="mb-2">
-        <nav id="navbar" class="navbar" role="navigation aria-label=main navigation">
+    <header>
+        <nav id="navbar" class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item" href="index.html">
-                    <h1 class="title is-1 has-text-white">Movie Hub</h1>
+                    <h1 class="title is-1 has-text-white"><i class="fas fa-film"></i>Movie Hub</h1>
                 </a>
+                <a role="button" class="navbar-burger burger nav-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+                    <span aria-hidden="true" class="has-text-white"></span>
+                    <span aria-hidden="true" class="has-text-white"></span>
+                    <span aria-hidden="true" class="has-text-white"></span>
+                  </a>
             </div>
-            <div class="navbar-menu">
+
+            <div id="navMenu" class="navbar-menu pt-0">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="index.html">
-                        <h2 class="is-1 has-text-white">Watch List</h2>
+                    <a class="navbar-item nav-list-item" href="index.html">
+                        <h2 class="has-text-white">Watch List</h2>
                     </a>
-                    <a class="navbar-item" href="seen-list.html">
-                        <h2 class="is-1 has-text-white">Seen List</h2>
+                    <a class="navbar-item nav-list-item" href="seen-list.html">
+                        <h2 class="has-text-white">Seen List</h2>
                     </a>
                 </div>
             </div>
         </nav>
-    </header> 
+    </header>  
     <main class="columns">
         <div id="search-container" class="column is-one-third m-2">
             <div id="form-container" class="column is-full">
                 <form id="movie-form" class="columns">
                     <input name="movie" id="movie-search-input" type="text" autofocus="true" class="input is-info column is-three-quarters m-1 p-1" placeholder="Movie Title"/>
-                    <button id="search-btn" type="submit" class="button"><span>Submit</span></button>
+                    <button id="search-btn" type="submit" class="btn"><span>Submit</span></button>
                 </form>
             </div>
-            <button id="random-btn" class="button is-full-width is-success column is-full my-2 p-2">Find Random Movie</button>
+
+            <button id="random-btn" class="btn is-full-width column is-full my-2 p-2">Find Random Movie</button>
+            
+            <div class="modal" id="search-modal">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Search Results</p>
+                        <button class="delete" aria-label="close"></button>
+                    </header>
+                    <section id="search-results-container" class="modal-card-body">
+                    <!-- Content ... -->
+                    </section>
+                </div>
+            </div>
+
             <div class="modal" id="random-modal">
                 <div class="modal-background"></div>
                 <div class="modal-card">
@@ -56,38 +77,16 @@
                   </footer>
                 </div>
             </div>
-
-            <div id="search-results-container" class="column is-full">
-
-            </div>
         </div>
         <div class="column">
             <!-- <div id="reddit-container">Reddit Articles</div> -->
-            <h1>Seen List</h1>
+            <h1 class="is-size-3 has-text-centered list-label mb-1">Seen List</h1>
             <div id="seen-list-container">
-               <!--  <div class="card p-3 is-flex">
-                    <img src="./temp.jpg" class="watch-poster mr-3">
-                    <div>
-                        <h2 class="is-size-1 has-text-weight-semibold">Star Wars: Episode IV - A New Hope (1970)</h2>
-                        <p class="is-size-3">Directed by George Lucas</p>
-                        <p class="is-size-3">Genre: Action, Adventure, Fantasy, Sci-Fi</p>
-                            
-                        <div class="is-flex">
-                            <p class="is-size-4 mr-6 mb-1">Runtime: 121 min</p>
-                            <p class="is-size-4">Rated PG</p>
-                        </div>
-                        <p class="is-size-4 movie-plot py-2">
-                            Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle station, while also attempting to rescue Princess Leia from the mysterious Darth Vader.
-                        </p>
-                        <div class="is-flex is-justify-content-space-around score mt-3">
-                            <p class="is-size-4">Imdb Score: 6.7</p>
-                            <p class="is-size-4">Tomatometer: 87%</p>
-                        </div>
-                    </div>
-                </div> -->
+
             </div>
         </div>
     </main>
+    <script src="https://kit.fontawesome.com/0e715984a4.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="assets/js/script.js"></script>
     <script src="assets/js/seen-list.js"></script>
