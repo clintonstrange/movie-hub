@@ -60,6 +60,7 @@ var getImdbId = function (moviedbId, check) {
 };
 
 var getMovie = function (movie) {
+  console.log(movie);
   var apiUrl =
     "https://api.themoviedb.org/3/search/movie?query=" +
     JSON.stringify(movie.replace(/\s/g, "-")) +
@@ -93,7 +94,6 @@ var getSearchMovieInfo = function (movieID) {
       // request was successful
       if (response.ok) {
         response.json().then(function (data) {
-          //add movie to watchlist array
           displayMovieSearch(data);
         });
       } else {
@@ -102,23 +102,22 @@ var getSearchMovieInfo = function (movieID) {
       }
     })
     .catch(function (error) {
-      // catch set up incase Open Weather is down or internet is disconnected
       alert("Unable to connect to The Movie Database");
     });
 };
 
 var getSearchImdbID = function (movie) {
-  // resultsContainerEl.innerHTML = "";
-  for (var i = 0; i < movie.results.length; i++) {
-    var movieID = movie.results[i].id;
-    getSearchMovieInfo(movieID);
+  if (movie.total_results === 0) {
+    resultsContainerEl.textContent = "No Search Results Found";
+  } else {
+    for (var i = 0; i < movie.results.length; i++) {
+      var movieID = movie.results[i].id;
+      getSearchMovieInfo(movieID);
+    }
   }
 };
 
 var displayMovieSearch = function (movie) {
-  // resultsContainerEl.innerHTML = "";
-
-  // for (var i = 0; i < movie.results.length; i++) {
   var movieContainerEl = document.createElement("div");
   movieContainerEl.setAttribute("id", "movie-container");
   movieContainerEl.classList = "columns";
@@ -139,22 +138,9 @@ var displayMovieSearch = function (movie) {
 
   resultsContainerEl.appendChild(movieContainerEl);
 
-  // if (movie.backdrop_path === null) {
-  //   resultsContainerEl.appendChild(movieContainerEl);
-  // } else {
-  //   var backdrop = document.createElement("img");
-  //   backdrop.setAttribute(
-  //     "src",
-  //     "https://image.tmdb.org/t/p/original/" + movie.backdrop_path
-  //   );
-  //   movieContainerEl.appendChild(backdrop);
-  //   resultsContainerEl.appendChild(movieContainerEl);
-  // }
-
   if (movie.poster_path === null) {
     var noPoster = document.createElement("img");
     noPoster.setAttribute("src", "assets/images/oh-snap.jpg");
-    // poster.classList = "image is-3by4 pt-0";
     posterContainerEl.prepend(noPoster);
   } else {
     var poster = document.createElement("img");
@@ -162,17 +148,19 @@ var displayMovieSearch = function (movie) {
       "src",
       "https://image.tmdb.org/t/p/original/" + movie.poster_path
     );
-    poster.classList = "image is-3by4 pt-0";
+    poster.classList = "search-poster is-3by4 pt-0";
     posterContainerEl.prepend(poster);
   }
 
   var title = document.createElement("h2");
-  title.classList = "has-text-weight-bold";
+  title.classList =
+    "is-size-4 has-text-centered has-text-white has-text-weight-bold";
   title.textContent = movie.title;
   movieHeaderContainerEl.appendChild(title);
 
   var release = document.createElement("p");
-  release.classList = "is-size-7 has-text-weight-medium";
+  release.classList =
+    "has-text-centered is-size-6 has-text-white has-text-weight-medium";
   release.textContent =
     "Released: " +
     movie.release_date +
@@ -182,41 +170,41 @@ var displayMovieSearch = function (movie) {
   movieHeaderContainerEl.appendChild(release);
 
   var overview = document.createElement("p");
-  overview.classList = "column is-full is-size-7 px-0 pt-0 pb-1";
+  overview.classList =
+    "has-text-white has-text-centered column is-full is-size-6 px-0 pt-0 pb-1";
   overview.textContent = movie.overview;
   movieInfoContainerEl.appendChild(overview);
 
   var btnContainerEl = document.createElement("div");
-  btnContainerEl.classList = "columns my-3";
+  btnContainerEl.classList = "is-flex is-justify-content-space-around";
   //!! adding each movies individual moviedbId to the buttons parent so it can be easily sent to getImdbId function
   btnContainerEl.setAttribute("id", movie.imdb_id);
   movieInfoContainerEl.appendChild(btnContainerEl);
 
   var addToWatchListBtn = document.createElement("button");
-  addToWatchListBtn.classList = "addBtn m-1 column is-two-fifths watch-btn-styling";
+  addToWatchListBtn.classList = "btn m-1 p-3 watch-btn-styling";
   addToWatchListBtn.setAttribute("id", "add-to-watch-list-btn");
   addToWatchListBtn.textContent = "Add To Watch List";
   btnContainerEl.appendChild(addToWatchListBtn);
 
   var addToSeenListBtn = document.createElement("button");
-  addToSeenListBtn.classList = "addBtn m-1 column is-two-fifths seen-btn-styling";
+  addToSeenListBtn.classList = "btn m-1 p-3 seen-btn-styling";
   addToSeenListBtn.setAttribute("id", "add-to-seen-list-btn");
   addToSeenListBtn.textContent = "Add To Seen List";
   btnContainerEl.appendChild(addToSeenListBtn);
-  // }
 };
 
 var displayMovieList = function (check) {
   //checks if function needs to display watchlist or seenlist
   if (!check) {
-    var list = watchlist
+    var list = watchlist;
     var listContainerEl = $("#watch-list-container");
-    console.log("watch")
+    // console.log("watch");
   } else {
-    var list = seenlist
+    var list = seenlist;
     var listContainerEl = $("#seen-list-container");
-    console.log("seen")
-  };
+    // console.log("seen");
+  }
 
   //clear list container
   listContainerEl.empty();
@@ -225,12 +213,11 @@ var displayMovieList = function (check) {
     var movieContainerEl = $("<div>").addClass("card p-3 is-flex");
     listContainerEl.append(movieContainerEl);
 
-    var posterEl = $("<img>")
-      .addClass("watch-poster mr-3");
+    var posterEl = $("<img>").addClass("watch-poster mr-3");
     if (list[i].Poster === "N/A") {
-        posterEl.attr("src", "assets/images/oh-snap.jpg")
+      posterEl.attr("src", "assets/images/oh-snap.jpg");
     } else {
-        posterEl.attr("src", list[i].Poster)
+      posterEl.attr("src", list[i].Poster);
     }
     var textContainer = $("<div>");
     movieContainerEl.append(posterEl, textContainer);
@@ -266,9 +253,9 @@ var displayMovieList = function (check) {
       .text(`Imdb Score: ${list[i].imdbRating}`);
     var rtScore = $("<p>").addClass("is-size-4");
     if (!list[i].Ratings[1]) {
-        rtScore.text(`Tomatometer: N/A`);
+      rtScore.text(`Tomatometer: N/A`);
     } else {
-        rtScore.text(`Tomatometer: ${list[i].Ratings[1].Value}`);
+      rtScore.text(`Tomatometer: ${list[i].Ratings[1].Value}`);
     }
     scoreContainer.append(imdbScore, rtScore);
 
@@ -283,26 +270,31 @@ var displayMovieList = function (check) {
   }
 };
 
-var formSubmitHandler = function (event) {
-  event.preventDefault();
-
-  // get value from input element
+$("#search-btn").on("click", function () {
   var movieTitle = movieInputEl.value.trim();
   if (movieTitle) {
+    event.preventDefault();
+
+    $("#search-modal").addClass("is-active");
     resultsContainerEl.innerHTML = "";
     getMovie(movieTitle);
     movieInputEl.value = "";
-  } else {
-    alert("Please enter a movie title.");
+  } else if (!movieTitle) {
+    event.preventDefault();
+    $("#search-modal").addClass("is-active");
+    resultsContainerEl.textContent = "Please Enter a Movie Title";
   }
-};
+});
+$(".delete").on("click", function () {
+  $("#search-modal").removeClass("is-active");
+});
 
 //determines which html page is on and loads correct list
-var loadMovieList = function() {
-  if ( document.URL.includes("index.html") ) {
+var loadMovieList = function () {
+  if (document.URL.includes("index.html")) {
     displayMovieList(0);
-  } else if( document.URL.includes("seen-list.html")){
-    displayMovieList(1)
+  } else if (document.URL.includes("seen-list.html")) {
+    displayMovieList(1);
   }
 };
 
@@ -331,20 +323,27 @@ $("#search-results-container").on(
 );
 
 //click hanlders for random button and modal buttons
-$("#random-btn").on("click", function() {
+$("#random-btn").on("click", function () {
   $("#random-modal").addClass("is-active");
   pickRandomMovie();
 });
-$(".delete").on("click", function() {
-  $("#random-modal").removeClass("is-active")
+$(".delete").on("click", function () {
+  $("#random-modal").removeClass("is-active");
 });
-$("#random-watch-btn").on("click", function() {
-  console.log("add to watchlist") 
+$("#random-watch-btn").on("click", function () {
+  console.log("add to watchlist");
 });
-$("#random-seen-btn").on("click", function() {
-  console.log("add to seenlist")
+$("#random-seen-btn").on("click", function () {
+  console.log("add to seenlist");
 });
 
-movieFormEl.addEventListener("submit", formSubmitHandler);
+$(document).ready(function () {
+  // Check for click events on the navbar burger icon
+  $(".navbar-burger").click(function () {
+    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+    $(".navbar-burger").toggleClass("is-active");
+    $(".navbar-menu").toggleClass("is-active");
+  });
+});
 
 loadMovieList();
