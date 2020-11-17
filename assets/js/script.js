@@ -60,6 +60,7 @@ var getImdbId = function (moviedbId, check) {
 };
 
 var getMovie = function (movie) {
+  console.log(movie);
   var apiUrl =
     "https://api.themoviedb.org/3/search/movie?query=" +
     JSON.stringify(movie.replace(/\s/g, "-")) +
@@ -88,7 +89,7 @@ var getSearchMovieInfo = function (movieID) {
     movieID +
     "?api_key=b2b7dc79b0696d3f9c1db98685b5b36f";
   // make a request to the url
-  fetch(apiUrl)
+  console.log(apiUrl);
     .then(function (response) {
       // request was successful
       if (response.ok) {
@@ -106,9 +107,13 @@ var getSearchMovieInfo = function (movieID) {
 };
 
 var getSearchImdbID = function (movie) {
-  for (var i = 0; i < movie.results.length; i++) {
-    var movieID = movie.results[i].id;
-    getSearchMovieInfo(movieID);
+  if (movie.total_results === 0) {
+    resultsContainerEl.textContent = "No Search Results Found";
+  } else {
+    for (var i = 0; i < movie.results.length; i++) {
+      var movieID = movie.results[i].id;
+      getSearchMovieInfo(movieID);
+    }
   }
 };
 
@@ -136,7 +141,6 @@ var displayMovieSearch = function (movie) {
   if (movie.poster_path === null) {
     var noPoster = document.createElement("img");
     noPoster.setAttribute("src", "assets/images/oh-snap.jpg");
-    // poster.classList = "image is-3by4 pt-0";
     posterContainerEl.prepend(noPoster);
   } else {
     var poster = document.createElement("img");
@@ -275,8 +279,10 @@ $("#search-btn").on("click", function () {
     resultsContainerEl.innerHTML = "";
     getMovie(movieTitle);
     movieInputEl.value = "";
-  } else {
-    alert("Please enter a movie title.");
+  } else if (!movieTitle) {
+    event.preventDefault();
+    $("#search-modal").addClass("is-active");
+    resultsContainerEl.textContent = "Please Enter a Movie Title";
   }
 });
 $(".delete").on("click", function () {
