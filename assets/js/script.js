@@ -23,6 +23,8 @@ var getOmdb = function (movieId, check) {
           if (list.some(movie => movie.imdbID === data.imdbID)) {
             sameMovieClicked()
           } else {
+            //remove clicked on class from button so it cant be affected later
+            $(".clicked-on").removeClass("clicked-on");
             //based on check (0 or 1) taken from on click functions from buttons choose to
             if (!check) {
               console.log(data)
@@ -232,7 +234,7 @@ var displayMovieList = function (check) {
   listContainerEl.empty();
 
   for (i = 0; i < list.length; i++) {
-    var movieContainerEl = $("<div>").addClass("card p-3 is-flex");
+    var movieContainerEl = $("<div>").addClass("card p-3 mb-1 is-flex has-background-white-ter list-item-container");
     listContainerEl.append(movieContainerEl);
 
     var posterEl = $("<img>").addClass("watch-poster mr-3");
@@ -241,7 +243,8 @@ var displayMovieList = function (check) {
     } else {
       posterEl.attr("src", list[i].Poster);
     }
-    var textContainer = $("<div>");
+    var textContainer = $("<div>")
+      .addClass("text-container");
     movieContainerEl.append(posterEl, textContainer);
 
     var titleEl = $("<h2>")
@@ -279,7 +282,21 @@ var displayMovieList = function (check) {
     } else {
       rtScore.text(`Tomatometer: ${list[i].Ratings[1].Value}`);
     }
-    scoreContainer.append(imdbScore, rtScore);
+    //add buttons to delete and move, check if 0 or 1 to either append both or just delete
+    var btnContainer = $("<div>")
+    var deleteBtn = $("<button>")
+      .addClass("btn is-size-4 px-2 has-background-danger trash-btn m-1")
+      .html("<i class='far fa-trash-alt'></i>")
+    var seenBtn = $("<button>")
+      .addClass("btn is-size-4 px-1 seen-btn-styling m-1")
+      .html("Seen-it <i class='fas fa-arrow-right'></i>")
+    if (!check) {
+      btnContainer.append(deleteBtn, seenBtn)
+    } else {
+      btnContainer.append(deleteBtn)
+    }
+    
+    scoreContainer.append(imdbScore, rtScore, btnContainer);
 
     textContainer.append(
       titleEl,

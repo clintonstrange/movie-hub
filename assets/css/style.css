@@ -174,15 +174,26 @@ a.nav-list-item:hover {
 }
 
 /* styling for watchlist display */
+.list-item-container {
+  border-top: var(--primary-color) solid 2px;
+  border-left: var(--primary-color) solid 2px;
+  border-bottom: var(--primary-color) solid 2px;
+}
+.text-container {
+  width: 100%;
+}
 .watch-poster {
   max-width: 20%;
   border-radius: 5px;
 }
 .movie-plot {
-  border-top: 1px black solid;
-  border-bottom: 1px black solid;
+  border-top: 2px solid var(--tertiary-color);
+  border-bottom: 2px var(--tertiary-color) solid;
   width: 90%;
 }
 .score {
   width: 90%;
+}
+.trash-btn {
+  border: 3px solid var(--primary-color);
 }
