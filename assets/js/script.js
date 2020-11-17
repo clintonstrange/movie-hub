@@ -8,15 +8,20 @@ var seenlist = JSON.parse(localStorage.getItem("seenList")) || [];
 
 var getOmdb = function (movieId, check) {
   var apiUrl = `http://www.omdbapi.com/?i=${movieId}&apikey=65b2c758`;
+  if (!check) {
+    var list = watchlist;
+  } else {
+    var list = seenlist;
+  }
   // make a request to the url
   fetch(apiUrl)
     .then(function (response) {
       // request was successful
       if (response.ok) {
         response.json().then(function (data) {
-          //check if movie beind added is already on list
-          if (watchlist.some(movie => movie.imdbID === data.imdbID)) {
-            console.log("success")
+          //check if movie being added is already on list
+          if (list.some(movie => movie.imdbID === data.imdbID)) {
+            sameMovieClicked()
           } else {
             //based on check (0 or 1) taken from on click functions from buttons choose to
             if (!check) {
@@ -123,6 +128,16 @@ var getSearchImdbID = function (movie) {
     }
   }
 };
+
+var sameMovieClicked = function() {
+  $(".error-message").remove();
+  var clickedMovie = $(".clicked-on").parent().parent();
+  var errorMessage = $("<p>")
+    .addClass("has-text-danger-dark error-message")
+    .text("This movie is already on your list!");
+  clickedMovie.append(errorMessage);
+  $(".clicked-on").removeClass("clicked-on");
+}
 
 var displayMovieSearch = function (movie) {
   var movieContainerEl = document.createElement("div");
@@ -312,6 +327,8 @@ $("#search-results-container").on(
   function () {
     //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
     var movieId = $(this).parent().attr("id");
+    //added class that tells sameMovieClicked function which
+    $(this).addClass("clicked-on")
     //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
     getImdbId(movieId, 0);
   }
@@ -324,6 +341,8 @@ $("#search-results-container").on(
   function () {
     //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
     var movieId = $(this).parent().attr("id");
+    //added class that tells sameMovieClicked function which
+    $(this).addClass("clicked-on")
     //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
     getImdbId(movieId, 1);
   }
