@@ -39,7 +39,7 @@ var getOmdb = function (movieId, check) {
         });
       } else {
         // error message if an invalid entery/movie is submitted
-        alert("Error: " + response.statusText);
+        console.log("Error: " + response.statusText);
       }
     })
     .catch(function (error) {
@@ -62,7 +62,7 @@ var getImdbId = function (moviedbId, check) {
         });
       } else {
         // error message if an invalid entery/movie is submitted
-        alert("Error: " + response.statusText);
+        console.log("Error: " + response.statusText);
       }
     })
     .catch(function (error) {
@@ -72,7 +72,6 @@ var getImdbId = function (moviedbId, check) {
 };
 
 var getMovie = function (movie) {
-  console.log(movie);
   var apiUrl =
     "https://api.themoviedb.org/3/search/movie?query=" +
     JSON.stringify(movie.replace(/\s/g, "-")) +
@@ -83,12 +82,11 @@ var getMovie = function (movie) {
       // request was successful
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
           getSearchImdbID(data);
         });
       } else {
         // error message if an invalid entery/movie is submitted
-        alert("Error: " + response.statusText);
+        console.log("Error: " + response.statusText);
       }
     })
     .catch(function (error) {
@@ -111,7 +109,7 @@ var getSearchMovieInfo = function (movieID) {
         });
       } else {
         // error message if an invalid entery/movie is submitted
-        alert("Error: " + response.statusText);
+        console.log("Error: " + response.statusText);
       }
     })
     .catch(function (error) {
@@ -140,11 +138,20 @@ var sameMovieClicked = function () {
   $(".clicked-on").removeClass("clicked-on");
 };
 
-var deleteMovie = function (movieId) {
-  console.log(movieId);
-  var deletedElement = $("#watch-list-container").children("#" + movieId);
-  console.log(deletedElement);
-  deletedElement.remove();
+// delete movie from watchlist
+var deleteWatchMovie = function (movieId) {
+  var filteredList = watchlist.filter((imdbId) => imdbId.imdbID != movieId);
+  watchlist = filteredList;
+  localStorage.setItem("watchList", JSON.stringify(watchlist));
+  loadMovieList();
+};
+
+// delete movie from seenlist
+var deleteSeenMovie = function (movieId) {
+  var filteredList = seenlist.filter((imdbId) => imdbId.imdbID != movieId);
+  seenlist = filteredList;
+  localStorage.setItem("seenList", JSON.stringify(seenlist));
+  loadMovieList();
 };
 
 var displayMovieSearch = function (movie) {
@@ -296,6 +303,7 @@ var displayMovieList = function (check) {
     var btnContainer = $("<div>").attr("id", list[i].imdbID);
     var deleteBtn = $("<button>")
       .addClass("btn is-size-4 px-2 has-background-danger trash-btn m-1")
+      .attr("id", "delete-movie-btn")
       .html("<i class='far fa-trash-alt'></i>");
     var seenBtn = $("<button>")
       .addClass("btn is-size-4 px-1 seen-btn-styling m-1")
@@ -384,7 +392,6 @@ $("#search-results-container").on(
   function () {
     //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
     var movieId = $(this).parent().attr("id");
-    console.log(movieId);
     //added class that tells sameMovieClicked function which
     $(this).addClass("clicked-on");
     //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
@@ -392,15 +399,33 @@ $("#search-results-container").on(
   }
 );
 
-//click on add to seenlist
+//click on to move from watchlist to seenlist
 $("#watch-list-container").on("click", "#add-to-seen-list-btn", function () {
   //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
   var movieId = $(this).parent().attr("id");
   //added class that tells sameMovieClicked function which
   $(this).addClass("clicked-on");
   //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
-  deleteMovie(movieId);
+  deleteWatchMovie(movieId);
   getImdbId(movieId, 1);
+});
+
+//click on to delete movie from watch-list
+$("#watch-list-container").on("click", "#delete-movie-btn", function () {
+  //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
+  var movieId = $(this).parent().attr("id");
+  //added class that tells sameMovieClicked function which
+  $(this).addClass("clicked-on");
+  deleteWatchMovie(movieId);
+});
+
+//click on to delete movie from seen-list
+$("#seen-list-container").on("click", "#delete-movie-btn", function () {
+  //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
+  var movieId = $(this).parent().attr("id");
+  //added class that tells sameMovieClicked function which
+  $(this).addClass("clicked-on");
+  deleteSeenMovie(movieId);
 });
 
 //click hanlders for random button and modal buttons
