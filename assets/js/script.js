@@ -20,27 +20,32 @@ var getOmdb = function (movieId, check) {
       if (response.ok) {
         response.json().then(function (data) {
           //check if movie being added is already on list
-          if (list.some(movie => movie.imdbID === data.imdbID)) {
-            sameMovieClicked()
+          if (list.some((movie) => movie.imdbID === data.imdbID)) {
+            sameMovieClicked();
           } else {
             //remove clicked on class from button so it cant be affected later
             $(".clicked-on").removeClass("clicked-on");
             //based on check (0 or 1) taken from on click functions from buttons choose to
-            if (!check) {
-              console.log(data)
+            if (check === 0) {
               watchlist.unshift(data);
               localStorage.setItem("watchList", JSON.stringify(watchlist));
               displayMovieList(check);
-            } else {
+            } else if (check === 1) {
               seenlist.unshift(data);
               localStorage.setItem("seenList", JSON.stringify(seenlist));
               displayMovieList(check);
+            } else {
+              var item = $(`#${movieId}`)
+              var placement = $(".list-item-container").index(item);
+              seenlist.splice(placement, 0, data);
+              localStorage.setItem("seenList", JSON.stringify(seenlist));
+              displayMovieList(1);
             }
-          }  
+          }
         });
       } else {
         // error message if an invalid entery/movie is submitted
-        alert("Error: " + response.statusText);
+        console.log("Error: " + response.statusText);
       }
     })
     .catch(function (error) {
@@ -63,7 +68,7 @@ var getImdbId = function (moviedbId, check) {
         });
       } else {
         // error message if an invalid entery/movie is submitted
-        alert("Error: " + response.statusText);
+        console.log("Error: " + response.statusText);
       }
     })
     .catch(function (error) {
@@ -73,7 +78,6 @@ var getImdbId = function (moviedbId, check) {
 };
 
 var getMovie = function (movie) {
-  console.log(movie);
   var apiUrl =
     "https://api.themoviedb.org/3/search/movie?query=" +
     JSON.stringify(movie.replace(/\s/g, "-")) +
@@ -84,12 +88,11 @@ var getMovie = function (movie) {
       // request was successful
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data)
           getSearchImdbID(data);
         });
       } else {
         // error message if an invalid entery/movie is submitted
-        alert("Error: " + response.statusText);
+        console.log("Error: " + response.statusText);
       }
     })
     .catch(function (error) {
@@ -112,7 +115,7 @@ var getSearchMovieInfo = function (movieID) {
         });
       } else {
         // error message if an invalid entery/movie is submitted
-        alert("Error: " + response.statusText);
+        console.log("Error: " + response.statusText);
       }
     })
     .catch(function (error) {
@@ -131,7 +134,7 @@ var getSearchImdbID = function (movie) {
   }
 };
 
-var sameMovieClicked = function() {
+var sameMovieClicked = function () {
   $(".error-message").remove();
   var clickedMovie = $(".clicked-on").parent().parent();
   var errorMessage = $("<p>")
@@ -139,7 +142,23 @@ var sameMovieClicked = function() {
     .text("This movie is already on your list!");
   clickedMovie.append(errorMessage);
   $(".clicked-on").removeClass("clicked-on");
-}
+};
+
+// delete movie from watchlist
+var deleteWatchMovie = function (movieId) {
+  var filteredList = watchlist.filter((imdbId) => imdbId.imdbID != movieId);
+  watchlist = filteredList;
+  localStorage.setItem("watchList", JSON.stringify(watchlist));
+  loadMovieList();
+};
+
+// delete movie from seenlist
+var deleteSeenMovie = function (movieId) {
+  var filteredList = seenlist.filter((imdbId) => imdbId.imdbID != movieId);
+  seenlist = filteredList;
+  localStorage.setItem("seenList", JSON.stringify(seenlist));
+  loadMovieList();
+};
 
 var displayMovieSearch = function (movie) {
   var movieContainerEl = document.createElement("div");
@@ -230,12 +249,16 @@ var displayMovieList = function (check) {
     // console.log("seen");
   }
   //set var for ranking
-  var rank = 1
+  var rank = 1;
   //clear list container
   listContainerEl.empty();
-  
+
   for (i = 0; i < list.length; i++) {
-    var movieContainerEl = $("<div>").addClass("card mb-1 is-flex has-background-white-ter list-item-container");
+    var movieContainerEl = $("<li>")
+      .attr("id", list[i].imdbID)
+      .addClass(
+        "card mb-1 is-flex has-background-white-ter list-item-container"
+      );
     listContainerEl.append(movieContainerEl);
 
     var posterEl = $("<img>").addClass("watch-poster mr-3");
@@ -244,8 +267,7 @@ var displayMovieList = function (check) {
     } else {
       posterEl.attr("src", list[i].Poster);
     }
-    var textContainer = $("<div>")
-      .addClass("text-container");
+    var textContainer = $("<div>").addClass("text-container");
     movieContainerEl.append(posterEl, textContainer);
 
     var titleEl = $("<h2>")
@@ -284,31 +306,36 @@ var displayMovieList = function (check) {
       rtScore.text(`Tomatometer: ${list[i].Ratings[1].Value}`);
     }
     //add buttons to delete and move, check if 0 or 1 to either append both or just delete
-    var btnContainer = $("<div>")
+    var btnContainer = $("<div>").attr("id", list[i].imdbID);
     var deleteBtn = $("<button>")
       .addClass("btn is-size-4 px-2 has-background-danger trash-btn m-1")
-      .html("<i class='far fa-trash-alt'></i>")
+      .attr("id", "delete-movie-btn")
+      .html("<i class='far fa-trash-alt'></i>");
     var seenBtn = $("<button>")
       .addClass("btn is-size-4 px-1 seen-btn-styling m-1")
-      .html("Seen-it <i class='fas fa-arrow-right'></i>")
+      .attr("id", "add-to-seen-list-btn")
+      .html("Seen-it <i class='fas fa-arrow-right'></i>");
     if (!check) {
-      btnContainer.append(deleteBtn, seenBtn)
+      btnContainer.append(deleteBtn, seenBtn);
     } else {
-      btnContainer.append(deleteBtn)
+      btnContainer.append(deleteBtn);
     }
-    
+
     scoreContainer.append(imdbScore, rtScore, btnContainer);
 
     //create html for rank then add 1 to number
-    var rankContainer = $("<div>")
-      .addClass("is-flex is-align-items-center is-size-4")
+    var rankContainer = $("<div>").addClass(
+      "is-flex is-align-items-center is-size-4 handle"
+    );
     var rankEl = $("<div>")
       .addClass("sort-container")
-      .html(`<p class="p-3"> ${rank}. </br> <i class="fas fa-align-justify"></i></p>`);
+      .html(
+        `<p class="p-3"> ${rank}. </br> <i class="fas fa-align-justify"></i></p>`
+      );
     rankContainer.append(rankEl);
     rank++;
     if (check) {
-      movieContainerEl.append(rankContainer)
+      movieContainerEl.append(rankContainer);
     }
 
     textContainer.append(
@@ -321,6 +348,20 @@ var displayMovieList = function (check) {
     );
   }
 };
+
+const sortable = new Draggable.Sortable(document.querySelectorAll('ol'), {
+  draggable: 'li',
+  handle: '.handle'
+});
+sortable.on('sortable:stop', () => 
+  sortHandler() 
+);
+var sortHandler = function() {
+  var id = $(".draggable-source--is-dragging").attr("id");
+  var newList = seenlist.filter((imdbId) => imdbId.imdbID != id);
+  seenlist = newList;
+  getOmdb(id, 3);
+}
 
 $("#search-btn").on("click", function () {
   var movieTitle = movieInputEl.value.trim();
@@ -358,7 +399,7 @@ $("#search-results-container").on(
     //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
     var movieId = $(this).parent().attr("id");
     //added class that tells sameMovieClicked function which
-    $(this).addClass("clicked-on")
+    $(this).addClass("clicked-on");
     //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
     getImdbId(movieId, 0);
   }
@@ -372,11 +413,40 @@ $("#search-results-container").on(
     //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
     var movieId = $(this).parent().attr("id");
     //added class that tells sameMovieClicked function which
-    $(this).addClass("clicked-on")
+    $(this).addClass("clicked-on");
     //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
     getImdbId(movieId, 1);
   }
 );
+
+//click on to move from watchlist to seenlist
+$("#watch-list-container").on("click", "#add-to-seen-list-btn", function () {
+  //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
+  var movieId = $(this).parent().attr("id");
+  //added class that tells sameMovieClicked function which
+  $(this).addClass("clicked-on");
+  //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
+  deleteWatchMovie(movieId);
+  getImdbId(movieId, 1);
+});
+
+//click on to delete movie from watch-list
+$("#watch-list-container").on("click", "#delete-movie-btn", function () {
+  //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
+  var movieId = $(this).parent().attr("id");
+  //added class that tells sameMovieClicked function which
+  $(this).addClass("clicked-on");
+  deleteWatchMovie(movieId);
+});
+
+//click on to delete movie from seen-list
+$("#seen-list-container").on("click", "#delete-movie-btn", function () {
+  //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
+  var movieId = $(this).parent().attr("id");
+  //added class that tells sameMovieClicked function which
+  $(this).addClass("clicked-on");
+  deleteSeenMovie(movieId);
+});
 
 //click hanlders for random button and modal buttons
 $("#random-btn").on("click", function () {
