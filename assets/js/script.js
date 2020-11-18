@@ -396,7 +396,7 @@ var displayMovieList = function (check) {
   //set var for ranking
   var rank = 1;
   //clear list container
-  listContainerEl.empty();
+  listContainerEl.addClass("m-3").empty();
 
   for (i = 0; i < list.length; i++) {
     var movieContainerEl = $("<li>")
@@ -405,6 +405,7 @@ var displayMovieList = function (check) {
         "card mb-1 is-flex has-background-white-ter list-item-container"
       );
     listContainerEl.append(movieContainerEl);
+    var posterContainer = $("<div>").addClass("is-3by4");
 
     var posterEl = $("<img>").addClass("watch-poster mr-3");
     if (list[i].Poster === "N/A") {
@@ -412,11 +413,13 @@ var displayMovieList = function (check) {
     } else {
       posterEl.attr("src", list[i].Poster);
     }
+    posterContainer.append(posterEl);
+
     var textContainer = $("<div>").addClass("text-container");
-    movieContainerEl.append(posterEl, textContainer);
+    movieContainerEl.append(posterContainer, textContainer);
 
     var titleEl = $("<h2>")
-      .addClass("is-size-1 has-text-weight-semibold")
+      .addClass("movie-title is-size-1 has-text-weight-semibold")
       .text(`${list[i].Title} (${list[i].Year})`);
     var directorEl = $("<p>")
       .addClass("is-size-3")
@@ -438,9 +441,9 @@ var displayMovieList = function (check) {
       .addClass("is-size-4 movie-plot py-2")
       .text(list[i].Plot);
 
-    var scoreContainer = $("<div>").addClass(
-      "is-flex is-justify-content-space-around score mt-3"
-    );
+    var scoreContainer = $("<div>")
+      .addClass("score mt-3")
+      .attr("id", "score-container");
     var imdbScore = $("<p>")
       .addClass("is-size-4")
       .text(`Imdb Score: ${list[i].imdbRating}`);
@@ -451,7 +454,9 @@ var displayMovieList = function (check) {
       rtScore.text(`Tomatometer: ${list[i].Ratings[1].Value}`);
     }
     //add buttons to delete and move, check if 0 or 1 to either append both or just delete
-    var btnContainer = $("<div>").attr("id", list[i].imdbID);
+    var btnContainer = $("<div>")
+      .attr("id", list[i].imdbID)
+      .addClass("is-flex is-justify-content-space-between button-container");
     var deleteBtn = $("<button>")
       .addClass("btn is-size-4 px-2 has-background-danger trash-btn m-1")
       .attr("id", "delete-movie-btn")

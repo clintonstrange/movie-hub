@@ -127,24 +127,30 @@ a.nav-list-item:hover {
 
 /* styling for watchlist display */
 .list-item-container {
-  border-top: var(--primary-color) solid 2px;
-  border-left: var(--primary-color) solid 2px;
+  border: var(--primary-color) solid 2px;
+  /* border-left: var(--primary-color) solid 2px;
   border-bottom: var(--primary-color) solid 2px;
-  padding-top: 0.75rem;
-  padding-left: 0.75rem;
-  padding-bottom: 0.75rem;
+  border-bottom: var(--primary-color) solid 2px; */
+  padding: 0.75rem;
+  /* padding-left: 0.75rem;
+  padding-bottom: 0.75rem; */
+  margin: 10px;
 }
 .text-container {
   width: 100%;
 }
 .watch-poster {
-  max-width: 20%;
+  max-width: 95%;
   border-radius: 5px;
 }
 .movie-plot {
   border-top: 2px solid var(--tertiary-color);
   border-bottom: 2px var(--tertiary-color) solid;
   width: 90%;
+}
+#score-container {
+  display: flex;
+  justify-content: space-around;
 }
 .score {
   width: 90%;
@@ -153,9 +159,9 @@ a.nav-list-item:hover {
   border: 3px solid var(--primary-color);
 }
 .sort-container {
-  border-top: black 2px solid;
-  border-left: black 2px solid;
-  border-bottom: black 2px solid;
+  border: black 2px solid;
+  /* border-left: black 2px solid;
+  border-bottom: black 2px solid; */
   border-radius: 3px;
   background-color: var(--primary-color);
   color: white;
@@ -170,4 +176,24 @@ a.nav-list-item:hover {
   border-top: var(--tertiary-color) 2px dashed;
   border-left: var(--tertiary-color) 2px dashed;
   border-bottom: var(--tertiary-color) 2px dashed;
+}
+
+@media only screen and (max-width: 768px) {
+  .list-container,
+  li {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .movie-title {
+    text-align: center;
+  }
+
+  #score-container {
+    display: block;
+  }
+
+  button.btn {
+    font-size: 20px;
+  }
 }
