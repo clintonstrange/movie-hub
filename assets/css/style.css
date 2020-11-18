@@ -208,3 +208,12 @@ a.nav-list-item:hover {
   background-color: var(--primary-color);
   color: white;
 }
+
+.draggable--original {
+  /* visibility: hidden; */
+  opacity: 50%;
+}
+.draggable-container--is-dragging {
+  /* background-color: gray; */
+  border: var(--tertiary-color) 2px dashed;
+}

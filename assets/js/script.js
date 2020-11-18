@@ -26,14 +26,20 @@ var getOmdb = function (movieId, check) {
             //remove clicked on class from button so it cant be affected later
             $(".clicked-on").removeClass("clicked-on");
             //based on check (0 or 1) taken from on click functions from buttons choose to
-            if (!check) {
+            if (check === 0) {
               watchlist.unshift(data);
               localStorage.setItem("watchList", JSON.stringify(watchlist));
               displayMovieList(check);
-            } else {
+            } else if (check === 1) {
               seenlist.unshift(data);
               localStorage.setItem("seenList", JSON.stringify(seenlist));
               displayMovieList(check);
+            } else {
+              var item = $(`#${movieId}`)
+              var placement = $(".list-item-container").index(item);
+
+              seenlist.splice(placement, 0, data);
+              displayMovieList(1);
             }
           }
         });
@@ -248,7 +254,7 @@ var displayMovieList = function (check) {
   listContainerEl.empty();
 
   for (i = 0; i < list.length; i++) {
-    var movieContainerEl = $("<div>")
+    var movieContainerEl = $("<li>")
       .attr("id", list[i].imdbID)
       .addClass(
         "card mb-1 is-flex has-background-white-ter list-item-container"
@@ -319,7 +325,7 @@ var displayMovieList = function (check) {
 
     //create html for rank then add 1 to number
     var rankContainer = $("<div>").addClass(
-      "is-flex is-align-items-center is-size-4"
+      "is-flex is-align-items-center is-size-4 handle"
     );
     var rankEl = $("<div>")
       .addClass("sort-container")
@@ -342,6 +348,20 @@ var displayMovieList = function (check) {
     );
   }
 };
+
+const sortable = new Draggable.Sortable(document.querySelectorAll('ol'), {
+  draggable: 'li',
+  handle: '.handle'
+});
+sortable.on('sortable:stop', () => 
+  sortHandler() 
+);
+var sortHandler = function() {
+  var id = $(".draggable-source--is-dragging").attr("id");
+  var newList = seenlist.filter((imdbId) => imdbId.imdbID != id);
+  seenlist = newList;
+  getOmdb(id, 3);
+}
 
 $("#search-btn").on("click", function () {
   var movieTitle = movieInputEl.value.trim();
