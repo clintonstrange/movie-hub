@@ -25,42 +25,6 @@
   }
 }
 
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  10% {
-    -webkit-transform: rotate(36deg);
-  }
-  20% {
-    -webkit-transform: rotate(72deg);
-  }
-  30% {
-    -webkit-transform: rotate(108deg);
-  }
-  40% {
-    -webkit-transform: rotate(144deg);
-  }
-  50% {
-    -webkit-transform: rotate(180deg);
-  }
-  60% {
-    -webkit-transform: rotate(216deg);
-  }
-  70% {
-    -webkit-transform: rotate(252deg);
-  }
-  80% {
-    -webkit-transform: rotate(288deg);
-  }
-  90% {
-    -webkit-transform: rotate(324deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
 body {
   font-family: "Barlow Semi Condensed", sans-serif;
 }
@@ -82,35 +46,29 @@ a.nav-list-item:hover {
   margin: auto 0;
 }
 
-#search-btn {
+.btn {
   background-color: var(--primary-color);
   color: white;
   margin: 4px;
-  padding: 4px 10px;
+  padding: auto;
   border: 2px solid var(--secondary-color);
+  border-radius: 5px;
 }
 
-#search-btn:hover {
+.btn:hover {
   -webkit-animation-name: pulse;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-direction: alternate;
-  -webkit-animation-timing-function: ease-in-out;
-  background-color: var(--tertiary-color);
-}
-
-#random-btn {
-  background-color: var(--secondary-color);
-  color: black;
-  border: 2px solid var(--primary-color);
-}
-
-#random-btn:hover {
-  -webkit-animation-name: pulse;
-  -webkit-animation-duration: 1s;
+  -webkit-animation-duration: 0.3s;
   -webkit-animation-direction: alternate;
   -webkit-animation-timing-function: ease-in-out;
   background-color: var(--tertiary-color);
   color: white;
+}
+
+#trending-form {
+  width: 90%;
+  background-color: var(--secondary-color);
+  border: 3px solid var(--primary-color);
+  border-radius: 5px;
 }
 
 #movie-container {
@@ -138,13 +96,6 @@ a.nav-list-item:hover {
   padding-top: 2px;
 }
 
-.btn {
-  border-radius: 5px;
-  padding: 1px;
-  margin: 5px;
-  font-size: 15px;
-}
-
 .watch-btn-styling {
   background-color: var(--primary-color);
   color: white;
@@ -153,7 +104,7 @@ a.nav-list-item:hover {
 
 .watch-btn-styling:hover {
   -webkit-animation-name: pulse;
-  -webkit-animation-duration: 1s;
+  -webkit-animation-duration: 0.3s;
   -webkit-animation-direction: alternate;
   -webkit-animation-timing-function: ease-in-out;
   background-color: var(--tertiary-color);
@@ -162,11 +113,12 @@ a.nav-list-item:hover {
 .seen-btn-styling {
   background-color: var(--secondary-color);
   border: 2px solid var(--primary-color);
+  color: black;
 }
 
 .seen-btn-styling:hover {
   -webkit-animation-name: pulse;
-  -webkit-animation-duration: 1s;
+  -webkit-animation-duration: 0.3s;
   -webkit-animation-direction: alternate;
   -webkit-animation-timing-function: ease-in-out;
   background-color: var(--tertiary-color);
@@ -178,9 +130,9 @@ a.nav-list-item:hover {
   border-top: var(--primary-color) solid 2px;
   border-left: var(--primary-color) solid 2px;
   border-bottom: var(--primary-color) solid 2px;
-  padding-top: .75rem;
-  padding-left: .75rem;
-  padding-bottom: .75rem;
+  padding-top: 0.75rem;
+  padding-left: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 .text-container {
   width: 100%;

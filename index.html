@@ -41,13 +41,72 @@
 
         <div id="search-container" class="column is-one-third m-2">
             <div id="form-container" class="column is-full">
-                <form id="movie-form" class="columns">
-                    <input name="movie" id="movie-search-input" type="text" autofocus="true" class="input is-info column is-three-quarters m-1 p-1" placeholder="Movie Title"/>
+                <form id="movie-form" class="columns is-flex is-flex-wrap is-justify-content-center">
+                    <input name="movie" id="movie-search-input" type="text" autofocus="true" class="input is-info column is-three-quarters m-1 p-1" placeholder="Search Movie Titles"/>
                     <button id="search-btn" type="submit" class="btn"><span>Submit</span></button>
                 </form>
             </div>
-
-            <button id="random-btn" class="btn is-full-width column is-full my-2 p-2">Find Random Movie</button>
+            <div class=" is-flex is-justify-content-center mt-8">
+            <form id="trending-form" class="mt-2">
+                <div class="field">
+                    <!-- <label class="label has-text-centered is-size-3 mb-0">Find Random Movie</label> -->
+                    <div class="control is-flex is-justify-content-center">
+                    <div class="select mt-4">
+                        <select id="select-genre">
+                        <option>Select Genre</option>
+                        <option id="28" class="selected-genre">Action</option>
+                        <option id="12" class="selected-genre">Adventure</option>
+                        <option id="16" class="selected-genre">Animation</option>
+                        <option id="35" class="selected-genre">Comedy</option>
+                        <option id="80" class="selected-genre">Crime</option>
+                        <option id="99" class="selected-genre">Documentary</option>
+                        <option id="18" class="selected-genre">Drama</option>
+                        <option id="10751" class="selected-genre">Family</option>
+                        <option id="14" class="selected-genre">Fantasy</option>
+                        <option id="36" class="selected-genre">History</option>
+                        <option id="27" class="selected-genre">Horror</option>
+                        <option id="10402" class="selected-genre">Music</option>
+                        <option id="9648" class="selected-genre">Mystery</option>
+                        <option id="10749" class="selected-genre">Romance</option>
+                        <option id="878" class="selected-genre">Science Fiction</option>
+                        <option id="53" class="selected-genre">Thriller</option>
+                        <option id="10770" class="selected-genre">TV Movie</option>
+                        <option id="10752" class="selected-genre">War</option>
+                        <option id="37" class="selected-genre">Western</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <div class="control is-flex is-justify-content-center">
+                    <label class="radio">
+                        <input id="G" type="radio" name="rating">
+                        G
+                    </label>
+                    <label class="radio">
+                        <input id="PG" type="radio" name="rating">
+                        PG
+                    </label>
+                    <label class="radio">
+                        <input id="PG-13" type="radio" name="rating">
+                        PG-13
+                    </label>
+                    <label class="radio">
+                        <input id="R" type="radio" name="rating">
+                        R
+                    </label>
+                    </div>
+                </div>
+                
+                <div class="field is-flex is-justify-content-center mb-4">
+                    <div class="control">
+                    <button id="trending-btn" class="btn button is-flex is-justify-content-center">Find Trending Movies</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </div>
             
             <div class="modal" id="search-modal">
                 <div class="modal-background"></div>
@@ -62,20 +121,16 @@
                 </div>
             </div>
 
-            <div class="modal" id="random-modal">
+            <div class="modal" id="trending-modal">
                 <div class="modal-background"></div>
                 <div class="modal-card">
                   <header class="modal-card-head">
-                    <p class="modal-card-title">Modal title</p>
+                    <p class="modal-card-title">Trending Movie Results</p>
                     <button class="delete" aria-label="close"></button>
                   </header>
-                  <section class="modal-card-body">
+                  <section id="trending-movie-container" class="modal-card-body">
                     <!-- Content ... -->
                   </section>
-                  <footer class="modal-card-foot is-flex is-justify-content-space-around">
-                    <button class="button watch-btn-styling" id="random-watch-btn">Add to Watchlist</button>
-                    <button class="button seen-btn-styling" id="random-seen-btn">Add to Seenlist</button>
-                  </footer>
                 </div>
             </div>
         </div>
