@@ -215,5 +215,7 @@ a.nav-list-item:hover {
 }
 .draggable-container--is-dragging {
   /* background-color: gray; */
-  border: var(--tertiary-color) 2px dashed;
+  border-top: var(--tertiary-color) 2px dashed;
+  border-left: var(--tertiary-color) 2px dashed;
+  border-bottom: var(--tertiary-color) 2px dashed;
 }

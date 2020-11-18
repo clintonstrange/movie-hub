@@ -37,8 +37,8 @@ var getOmdb = function (movieId, check) {
             } else {
               var item = $(`#${movieId}`)
               var placement = $(".list-item-container").index(item);
-
               seenlist.splice(placement, 0, data);
+              localStorage.setItem("seenList", JSON.stringify(seenlist));
               displayMovieList(1);
             }
           }
