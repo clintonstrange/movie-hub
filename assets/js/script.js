@@ -36,7 +36,9 @@ var getOmdb = function (movieId, check) {
               displayMovieList(check);
             } else {
               var item = $(`#${movieId}`)
+              console.log(item)
               var placement = $(".list-item-container").index(item);
+              console.log(placement)
               seenlist.splice(placement, 0, data);
               localStorage.setItem("seenList", JSON.stringify(seenlist));
               displayMovieList(1);
@@ -358,6 +360,7 @@ sortable.on('sortable:stop', () =>
 );
 var sortHandler = function() {
   var id = $(".draggable-source--is-dragging").attr("id");
+  console.log(id)
   var newList = seenlist.filter((imdbId) => imdbId.imdbID != id);
   seenlist = newList;
   getOmdb(id, 3);
@@ -380,6 +383,7 @@ $("#search-btn").on("click", function () {
 });
 $(".delete").on("click", function () {
   $("#search-modal").removeClass("is-active");
+  $("#search-results-container").html("")
 });
 
 //determines which html page is on and loads correct list
@@ -412,10 +416,12 @@ $("#search-results-container").on(
   function () {
     //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
     var movieId = $(this).parent().attr("id");
+    console.log("hi")
     //added class that tells sameMovieClicked function which
     $(this).addClass("clicked-on");
     //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
     getImdbId(movieId, 1);
+
   }
 );
 
