@@ -475,10 +475,10 @@ var displayMovieList = function (check) {
 
     //create html for rank then add 1 to number
     var rankContainer = $("<div>").addClass(
-      "is-flex is-align-items-center is-size-4 handle"
+      "is-flex is-align-items-center is-size-4"
     );
     var rankEl = $("<div>")
-      .addClass("sort-container")
+      .addClass("sort-container handle")
       .html(
         `<p class="p-3"> ${rank}. </br> <i class="fas fa-align-justify"></i></p>`
       );
