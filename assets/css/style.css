@@ -206,7 +206,6 @@ a.nav-list-item:hover {
 .post-item-container {
   border-bottom: black 1px solid;
   height: 20%;
-  /* color: aliceblue; */
 }
 .post-img {
   border: var(--tertiary-color) 5px solid;
@@ -221,4 +220,7 @@ a.nav-list-item:hover {
 }
 .post-item-container a:hover {
   color: var(--tertiary-color);
+}
+.post-item-container:last-child {
+  border: none;
 }
