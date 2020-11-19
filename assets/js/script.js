@@ -305,7 +305,6 @@ var displayMovieSearch = function (movie) {
 };
 
 var displayTrendingMovie = function (movie) {
-  console.log(movie);
   var movieContainerEl = document.createElement("div");
   movieContainerEl.setAttribute("id", "movie-container");
   movieContainerEl.classList = "columns";
@@ -541,7 +540,7 @@ var loadMovieList = function () {
   }
 };
 
-//click on add to watchlist
+//click on add from search results to watchlist
 $("#search-results-container").on(
   "click",
   "#add-to-watch-list-btn",
@@ -555,8 +554,37 @@ $("#search-results-container").on(
   }
 );
 
-//click on add to seenlist
+//click on add from search results to seenlist
 $("#search-results-container").on(
+  "click",
+  "#add-to-seen-list-btn",
+  function () {
+    //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
+    var movieId = $(this).parent().attr("id");
+    console.log("hi");
+    //added class that tells sameMovieClicked function which
+    $(this).addClass("clicked-on");
+    //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
+    getImdbId(movieId, 1);
+  }
+);
+
+//click on add from trending results to watchlist
+$("#trending-movie-container").on(
+  "click",
+  "#add-to-watch-list-btn",
+  function () {
+    //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
+    var movieId = $(this).parent().attr("id");
+    //added class that tells sameMovieClicked function which
+    $(this).addClass("clicked-on");
+    //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
+    getImdbId(movieId, 0);
+  }
+);
+
+//click on add from trending results to seenlist
+$("#trending-movie-container").on(
   "click",
   "#add-to-seen-list-btn",
   function () {
