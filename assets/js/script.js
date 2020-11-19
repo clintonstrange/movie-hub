@@ -219,9 +219,12 @@ var displayReddit = function(posts) {
     var postContainer = $("<div>")
       .addClass("post-item-container is-flex is-align-items-center p-3");
     newsContainer.append(postContainer);
-    var thumbnailEl = $("<img>")
+    if (posts.data.children[i].data.thumbnail !== "self") {
+      var thumbnailEl = $("<img>")
       .addClass("post-img")
       .attr("src", posts.data.children[i].data.thumbnail,);
+      postContainer.append(thumbnailEl)
+    }
     var textContainer = $("<div>")
       .addClass("ml-2 is-size-5")
     var postTitle = $("<p>")
@@ -233,7 +236,7 @@ var displayReddit = function(posts) {
         target: "_blank"
       });
     textContainer.append(postTitle, postLink);
-    postContainer.append(thumbnailEl, textContainer);
+    postContainer.append(textContainer);
     //increase this number if you want more posts
     if (i > 6) {
       break
