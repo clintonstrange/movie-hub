@@ -109,7 +109,7 @@ var getMovie = function (movie) {
 
 var getTrendingMovie = function (trendingGenre, trendingCertification) {
   var apiUrl =
-    "https://api.themoviedb.org/3/discover/movie?with_genre=" +
+    "https://api.themoviedb.org/3/discover/movie?with_genres=" +
     trendingGenre +
     "&certification_country=US&certification=" +
     trendingCertification +
