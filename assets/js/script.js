@@ -615,6 +615,7 @@ $("#trending-btn").on("click", function () {
 });
 $(".delete").on("click", function () {
   $("#trending-modal").removeClass("is-active");
+  $("#trending-movie-container").html("");
 });
 
 $(document).ready(function () {
