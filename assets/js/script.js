@@ -12,7 +12,7 @@ var watchlist = JSON.parse(localStorage.getItem("watchList")) || [];
 var seenlist = JSON.parse(localStorage.getItem("seenList")) || [];
 
 var getOmdb = function (movieId, check) {
-  var apiUrl = `http://www.omdbapi.com/?i=${movieId}&apikey=65b2c758`;
+  var apiUrl = `https://www.omdbapi.com/?i=${movieId}&apikey=65b2c758`;
   if (!check) {
     var list = watchlist;
   } else {
