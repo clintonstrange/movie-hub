@@ -201,6 +201,49 @@ var getTrendingImdbID = function (movie) {
   }
 };
 
+$.ajax(
+  "https://www.reddit.com/r/movies/hot.json", {
+      success: function(responseData) {
+          displayReddit(responseData)
+      },
+      error: function() {
+        alert("Unable to connect to reddit!")
+      }
+  }
+);
+
+var displayReddit = function(posts) {
+  //starts from 2 because pinned posts could also make if statement to check if post is pinned
+  for (i = 2; i < posts.data.children.length ; i++) {
+    var newsContainer = $("#news-container")
+    var postContainer = $("<div>")
+      .addClass("post-item-container is-flex is-align-items-center p-3");
+    newsContainer.append(postContainer);
+    if (posts.data.children[i].data.thumbnail !== "self") {
+      var thumbnailEl = $("<img>")
+      .addClass("post-img")
+      .attr("src", posts.data.children[i].data.thumbnail,);
+      postContainer.append(thumbnailEl)
+    }
+    var textContainer = $("<div>")
+      .addClass("ml-2 is-size-5")
+    var postTitle = $("<p>")
+      .text(posts.data.children[i].data.title);
+    var postLink = $("<a>")
+      .text("Go to post")
+      .attr({
+        href: `https://www.reddit.com${posts.data.children[i].data.permalink}`,
+        target: "_blank"
+      });
+    textContainer.append(postTitle, postLink);
+    postContainer.append(textContainer);
+    //increase this number if you want more posts
+    if (i > 6) {
+      break
+    }
+  }
+};
+
 var sameMovieClicked = function () {
   $(".error-message").remove();
   var clickedMovie = $(".clicked-on").parent().parent();
@@ -475,10 +518,10 @@ var displayMovieList = function (check) {
 
     //create html for rank then add 1 to number
     var rankContainer = $("<div>").addClass(
-      "is-flex is-align-items-center is-size-4 handle"
+      "is-flex is-align-items-center is-size-4"
     );
     var rankEl = $("<div>")
-      .addClass("sort-container")
+      .addClass("sort-container handle")
       .html(
         `<p class="p-3"> ${rank}. </br> <i class="fas fa-align-justify"></i></p>`
       );
@@ -615,6 +658,7 @@ $("#trending-btn").on("click", function () {
 });
 $(".delete").on("click", function () {
   $("#trending-modal").removeClass("is-active");
+  $("#trending-movie-container").html("");
 });
 
 $(document).ready(function () {

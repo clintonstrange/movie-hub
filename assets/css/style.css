@@ -197,3 +197,30 @@ a.nav-list-item:hover {
     font-size: 20px;
   }
 }
+
+#news-container {
+  border: var(--primary-color) 2px solid;
+  border-radius: 5px;
+  
+}
+.post-item-container {
+  border-bottom: black 1px solid;
+  height: 20%;
+}
+.post-img {
+  border: var(--tertiary-color) 5px solid;
+  border-radius: 20px;
+  background-image: url("");
+  height: 80%;
+  width: 8rem;
+  object-fit: cover;
+}
+.post-item-container a {
+  color: var(--primary-color);
+}
+.post-item-container a:hover {
+  color: var(--tertiary-color);
+}
+.post-item-container:last-child {
+  border: none;
+}
