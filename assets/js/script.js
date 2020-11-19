@@ -201,6 +201,46 @@ var getTrendingImdbID = function (movie) {
   }
 };
 
+$.ajax(
+  "https://www.reddit.com/r/movies/hot.json", {
+      success: function(responseData) {
+          displayReddit(responseData)
+      },
+      error: function() {
+        alert("Unable to connect to reddit!")
+      }
+  }
+);
+
+var displayReddit = function(posts) {
+  //starts from 2 because pinned posts could also make if statement to check if post is pinned
+  for (i = 2; i < posts.data.children.length ; i++) {
+    var newsContainer = $("#news-container")
+    var postContainer = $("<div>")
+      .addClass("post-item-container is-flex is-align-items-center p-3");
+    newsContainer.append(postContainer);
+    var thumbnailEl = $("<img>")
+      .addClass("post-img")
+      .attr("src", posts.data.children[i].data.thumbnail,);
+    var textContainer = $("<div>")
+      .addClass("ml-2 is-size-5")
+    var postTitle = $("<p>")
+      .text(posts.data.children[i].data.title);
+    var postLink = $("<a>")
+      .text("Go to post")
+      .attr({
+        href: `https://www.reddit.com${posts.data.children[i].data.permalink}`,
+        target: "_blank"
+      });
+    textContainer.append(postTitle, postLink);
+    postContainer.append(thumbnailEl, textContainer);
+    //increase this number if you want more posts
+    if (i > 6) {
+      break
+    }
+  }
+};
+
 var sameMovieClicked = function () {
   $(".error-message").remove();
   var clickedMovie = $(".clicked-on").parent().parent();
