@@ -289,7 +289,6 @@ var displayMovieSearch = function (movie) {
 
   var movieInfoContainerEl = document.createElement("div");
   movieInfoContainerEl.setAttribute("id", "movie-info");
-  //movieInfoContainerEl.classList = "columns";
   movieContainerEl.appendChild(movieInfoContainerEl);
 
   var movieHeaderContainerEl = document.createElement("div");
@@ -367,7 +366,6 @@ var displayTrendingMovie = function (movie) {
 
   var movieInfoContainerEl = document.createElement("div");
   movieInfoContainerEl.setAttribute("id", "movie-info");
-  //movieInfoContainerEl.classList = "columns";
   movieContainerEl.appendChild(movieInfoContainerEl);
 
   var movieHeaderContainerEl = document.createElement("div");
