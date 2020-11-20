@@ -7,10 +7,12 @@ var trendingMovieContainerEl = document.querySelector(
   "#trending-movie-container"
 );
 
-//array to hold watchlist movies
+// array to hold watchlist movies
 var watchlist = JSON.parse(localStorage.getItem("watchList")) || [];
+// array to hold seenlist movies
 var seenlist = JSON.parse(localStorage.getItem("seenList")) || [];
 
+// use open movie database with the IMDB ID to send ID to display and save movies to appropriate list 
 var getOmdb = function (movieId, check) {
   var apiUrl = `https://www.omdbapi.com/?i=${movieId}&apikey=65b2c758`;
   if (!check) {
@@ -41,9 +43,7 @@ var getOmdb = function (movieId, check) {
               displayMovieList(check);
             } else {
               var item = $(`#${movieId}`);
-              console.log(item);
               var placement = $(".list-item-container").index(item);
-              console.log(placement);
               seenlist.splice(placement, 0, data);
               localStorage.setItem("seenList", JSON.stringify(seenlist));
               displayMovieList(1);
@@ -57,10 +57,11 @@ var getOmdb = function (movieId, check) {
     })
     .catch(function (error) {
       // catch set up incase Open Weather is down or internet is disconnected
-      alert("Unable to connect to The Movie Database");
+      alert("Unable to connect to The Open Movie Database");
     });
 };
 
+// get IMDB ID from the movie database in search results and send to Open Movie Database
 var getImdbId = function (moviedbId, check) {
   var apiUrl = `https://api.themoviedb.org/3/movie/${moviedbId}/external_ids?api_key=b2b7dc79b0696d3f9c1db98685b5b36f`;
   // // make a request to the url
@@ -84,6 +85,7 @@ var getImdbId = function (moviedbId, check) {
     });
 };
 
+// take search input and search the movie database for relevant results
 var getMovie = function (movie) {
   var apiUrl =
     "https://api.themoviedb.org/3/search/movie?query=" +
@@ -107,6 +109,7 @@ var getMovie = function (movie) {
     });
 };
 
+// take trending form criteria and search the move datebase for relevant results
 var getTrendingMovie = function (trendingGenre, trendingCertification) {
   var apiUrl =
     "https://api.themoviedb.org/3/discover/movie?with_genres=" +
@@ -133,6 +136,7 @@ var getTrendingMovie = function (trendingGenre, trendingCertification) {
     });
 };
 
+// use the open movie database and IMDB ID to push data to display movies on appropriate list
 var getSearchMovieInfo = function (movieID) {
   var apiUrl =
     "https://api.themoviedb.org/3/movie/" +
@@ -156,6 +160,7 @@ var getSearchMovieInfo = function (movieID) {
     });
 };
 
+//use the open movie database and IMDB ID to push data to display movies on appropriate list
 var getTrendingMovieInfo = function (movieID) {
   var apiUrl =
     "https://api.themoviedb.org/3/movie/" +
@@ -179,6 +184,7 @@ var getTrendingMovieInfo = function (movieID) {
     });
 };
 
+// use for loop to capture all movies in search results to display
 var getSearchImdbID = function (movie) {
   if (movie.total_results === 0) {
     resultsContainerEl.textContent = "No Search Results Found";
@@ -190,6 +196,7 @@ var getSearchImdbID = function (movie) {
   }
 };
 
+// use for loop to capture all mocies in search results to display
 var getTrendingImdbID = function (movie) {
   if (movie.total_results === 0) {
     resultsContainerEl.textContent = "No Search Results Found";
@@ -201,49 +208,49 @@ var getTrendingImdbID = function (movie) {
   }
 };
 
-$.ajax(
-  "https://www.reddit.com/r/movies/hot.json", {
-      success: function(responseData) {
-          displayReddit(responseData)
-      },
-      error: function() {
-        alert("Unable to connect to reddit!")
-      }
-  }
-);
+// get reddit api
+$.ajax("https://www.reddit.com/r/movies/hot.json", {
+  success: function (responseData) {
+    displayReddit(responseData);
+  },
+  error: function () {
+    alert("Unable to connect to reddit!");
+  },
+});
 
-var displayReddit = function(posts) {
+// display reddit movie artiles
+var displayReddit = function (posts) {
   //starts from 2 because pinned posts could also make if statement to check if post is pinned
-  for (i = 2; i < posts.data.children.length ; i++) {
-    var newsContainer = $("#news-container")
-    var postContainer = $("<div>")
-      .addClass("post-item-container is-flex is-align-items-center p-3");
+  for (i = 2; i < posts.data.children.length; i++) {
+    var newsContainer = $("#news-container");
+    var postContainer = $("<div>").addClass(
+      "post-item-container is-flex is-align-items-center p-3"
+    );
     newsContainer.append(postContainer);
     if (posts.data.children[i].data.thumbnail !== "self") {
       var thumbnailEl = $("<img>")
-      .addClass("post-img")
-      .attr("src", posts.data.children[i].data.thumbnail,);
-      postContainer.append(thumbnailEl)
+        .addClass("post-img")
+        .attr("src", posts.data.children[i].data.thumbnail);
+      postContainer.append(thumbnailEl);
     }
-    var textContainer = $("<div>")
-      .addClass("ml-2 is-size-5")
-    var postTitle = $("<p>")
-      .text(posts.data.children[i].data.title);
+    var textContainer = $("<div>").addClass("ml-2 is-size-5");
+    var postTitle = $("<p>").text(posts.data.children[i].data.title);
     var postLink = $("<a>")
       .text("Go to post")
       .attr({
         href: `https://www.reddit.com${posts.data.children[i].data.permalink}`,
-        target: "_blank"
+        target: "_blank",
       });
     textContainer.append(postTitle, postLink);
     postContainer.append(textContainer);
     //increase this number if you want more posts
     if (i > 6) {
-      break
+      break;
     }
   }
 };
 
+// check if move already exists on lists
 var sameMovieClicked = function () {
   $(".error-message").remove();
   var clickedMovie = $(".clicked-on").parent().parent();
@@ -270,6 +277,7 @@ var deleteSeenMovie = function (movieId) {
   loadMovieList();
 };
 
+// display search results from the movie database in search modal
 var displayMovieSearch = function (movie) {
   var movieContainerEl = document.createElement("div");
   movieContainerEl.setAttribute("id", "movie-container");
@@ -347,6 +355,7 @@ var displayMovieSearch = function (movie) {
   btnContainerEl.appendChild(addToSeenListBtn);
 };
 
+// dispay trending results from the movie database in trending modal
 var displayTrendingMovie = function (movie) {
   var movieContainerEl = document.createElement("div");
   movieContainerEl.setAttribute("id", "movie-container");
@@ -424,16 +433,15 @@ var displayTrendingMovie = function (movie) {
   btnContainerEl.appendChild(addToSeenListBtn);
 };
 
+// display movies in watch list or seen list
 var displayMovieList = function (check) {
   //checks if function needs to display watchlist or seenlist
   if (!check) {
     var list = watchlist;
     var listContainerEl = $("#watch-list-container");
-    // console.log("watch");
   } else {
     var list = seenlist;
-    var listContainerEl = $("#seen-list-container");
-    // console.log("seen");
+    var listContainerEl = $("#seen-list-container")
   }
   //set var for ranking
   var rank = 1;
@@ -541,6 +549,7 @@ var displayMovieList = function (check) {
   }
 };
 
+// apply draggable to seen list
 const sortable = new Draggable.Sortable(document.querySelectorAll("ol"), {
   draggable: "li",
   handle: ".handle",
@@ -548,12 +557,13 @@ const sortable = new Draggable.Sortable(document.querySelectorAll("ol"), {
 sortable.on("sortable:stop", () => sortHandler());
 var sortHandler = function () {
   var id = $(".draggable-source--is-dragging").attr("id");
-  console.log(id);
   var newList = seenlist.filter((imdbId) => imdbId.imdbID != id);
   seenlist = newList;
   getOmdb(id, 3);
 };
 
+
+// click hanlders for search submit button and close modal buttons
 $("#search-btn").on("click", function () {
   var movieTitle = movieInputEl.value.trim();
   if (movieTitle) {
@@ -574,7 +584,7 @@ $(".delete").on("click", function () {
   $("#search-results-container").html("");
 });
 
-//determines which html page is on and loads correct list
+// determines which html page is on and loads correct list
 var loadMovieList = function () {
   if (document.URL.includes("index.html")) {
     displayMovieList(0);
@@ -583,7 +593,7 @@ var loadMovieList = function () {
   }
 };
 
-//click on add from search results to watchlist
+// click on to add from search results to watchlist
 $("#search-results-container").on(
   "click",
   "#add-to-watch-list-btn",
@@ -597,14 +607,13 @@ $("#search-results-container").on(
   }
 );
 
-//click on add from search results to seenlist
+// click on to add from search results to seenlist
 $("#search-results-container").on(
   "click",
   "#add-to-seen-list-btn",
   function () {
     //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
     var movieId = $(this).parent().attr("id");
-    console.log("hi");
     //added class that tells sameMovieClicked function which
     $(this).addClass("clicked-on");
     //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
@@ -612,7 +621,7 @@ $("#search-results-container").on(
   }
 );
 
-//click on add from trending results to watchlist
+// click on to add from trending results to watchlist
 $("#trending-movie-container").on(
   "click",
   "#add-to-watch-list-btn",
@@ -626,14 +635,13 @@ $("#trending-movie-container").on(
   }
 );
 
-//click on add from trending results to seenlist
+// click on to add from trending results to seenlist
 $("#trending-movie-container").on(
   "click",
   "#add-to-seen-list-btn",
   function () {
     //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
     var movieId = $(this).parent().attr("id");
-    console.log("hi");
     //added class that tells sameMovieClicked function which
     $(this).addClass("clicked-on");
     //second number being sent tells getImdbId wether to add to watch(0) or seen(1)
@@ -641,7 +649,7 @@ $("#trending-movie-container").on(
   }
 );
 
-//click on to move from watchlist to seenlist
+// click on to move movie from watchlist to seenlist
 $("#watch-list-container").on("click", "#add-to-seen-list-btn", function () {
   //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
   var movieId = $(this).parent().attr("id");
@@ -652,7 +660,7 @@ $("#watch-list-container").on("click", "#add-to-seen-list-btn", function () {
   getImdbId(movieId, 1);
 });
 
-//click on to delete movie from watch-list
+// click on to delete movie from watch-list
 $("#watch-list-container").on("click", "#delete-movie-btn", function () {
   //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
   var movieId = $(this).parent().attr("id");
@@ -661,7 +669,7 @@ $("#watch-list-container").on("click", "#delete-movie-btn", function () {
   deleteWatchMovie(movieId);
 });
 
-//click on to delete movie from seen-list
+// click on to delete movie from seen-list
 $("#seen-list-container").on("click", "#delete-movie-btn", function () {
   //set movieid to the clicked button's parent's id. use same method to send movieId to seen list page
   var movieId = $(this).parent().attr("id");
@@ -670,7 +678,7 @@ $("#seen-list-container").on("click", "#delete-movie-btn", function () {
   deleteSeenMovie(movieId);
 });
 
-//click hanlders for trending button and modal buttons
+// click hanlders for trending submit button and close modal buttons
 $("#trending-btn").on("click", function () {
   event.preventDefault();
   var trendingGenre = $("#select-genre option:selected").attr("id");
@@ -689,6 +697,7 @@ $(".delete").on("click", function () {
   $("#trending-movie-container").html("");
 });
 
+// nav bar burger for touch media screens
 $(document).ready(function () {
   // Check for click events on the navbar burger icon
   $(".navbar-burger").click(function () {
