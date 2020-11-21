@@ -187,7 +187,7 @@ var getTrendingMovieInfo = function (movieID) {
 // use for loop to capture all movies in search results to display
 var getSearchImdbID = function (movie) {
   if (movie.total_results === 0) {
-    resultsContainerEl.textContent = "No Search Results Found";
+    resultsMovieContainerEl.textContent = "No Search Results Found";
   } else {
     for (var i = 0; i < movie.results.length; i++) {
       var movieID = movie.results[i].id;
@@ -199,7 +199,7 @@ var getSearchImdbID = function (movie) {
 // use for loop to capture all mocies in search results to display
 var getTrendingImdbID = function (movie) {
   if (movie.total_results === 0) {
-    resultsContainerEl.textContent = "No Search Results Found";
+    resultsMovieContainerEl.textContent = "No Search Results Found";
   } else {
     for (var i = 0; i < movie.results.length; i++) {
       var movieID = movie.results[i].id;
