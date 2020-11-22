@@ -9,6 +9,7 @@ This application allows the user to be able to add movies the user intends to wa
 This app runs in the browser and with the help of HTML and CSS powered by jQuery and javaScript. Bulma CSS framework was used for the styling while OMDb and moviedb APIs were used for the movie database
 
 <strong>image</strong>
+![](images/screenshot.png)
 
 <strong>Installation</strong>
 This project does not need any installation,rather it is currently hosted on github, which can be accessed by clicking on the link below
