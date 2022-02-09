@@ -12,7 +12,7 @@ var watchlist = JSON.parse(localStorage.getItem("watchList")) || [];
 // array to hold seenlist movies
 var seenlist = JSON.parse(localStorage.getItem("seenList")) || [];
 
-// use open movie database with the IMDB ID to send ID to display and save movies to appropriate list 
+// use open movie database with the IMDB ID to send ID to display and save movies to appropriate list
 var getOmdb = function (movieId, check) {
   var apiUrl = `https://www.omdbapi.com/?i=${movieId}&apikey=65b2c758`;
   if (!check) {
@@ -441,7 +441,7 @@ var displayMovieList = function (check) {
     var listContainerEl = $("#watch-list-container");
   } else {
     var list = seenlist;
-    var listContainerEl = $("#seen-list-container")
+    var listContainerEl = $("#seen-list-container");
   }
   //set var for ranking
   var rank = 1;
@@ -562,7 +562,6 @@ var sortHandler = function () {
   getOmdb(id, 3);
 };
 
-
 // click hanlders for search submit button and close modal buttons
 $("#search-btn").on("click", function () {
   var movieTitle = movieInputEl.value.trim();
@@ -587,6 +586,7 @@ $(".delete").on("click", function () {
 // determines which html page is on and loads correct list
 var loadMovieList = function () {
   if (document.URL.includes("index.html")) {
+    console.log("Hi");
     displayMovieList(0);
   } else if (document.URL.includes("seen-list.html")) {
     displayMovieList(1);
